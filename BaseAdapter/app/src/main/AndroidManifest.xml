@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zengcanxiang.example" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".RecyclerViewExample"
+            android:label="@string/title_activity_recycler_view_example" >
+        </activity>
+        <activity
+            android:name=".AbsListViewExample"
+            android:label="@string/title_activity_abs_list_view_example" >
+        </activity>
+        <activity
+            android:name=".AbsListViewExampleTwo"
+            android:label="@string/title_activity_abs_list_view_example_two" >
+        </activity>
+        <activity
+            android:name=".RecyclerViewExampleTwo"
+            android:label="@string/title_activity_recycler_view_example_two" >
+        </activity>
+    </application>
+
+</manifest>

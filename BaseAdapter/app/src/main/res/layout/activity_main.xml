@@ -1,0 +1,84 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/JumpAbsView"
+            android:layout_width="0dp"
+            android:layout_height="140dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@android:color/holo_blue_bright"
+            android:gravity="center"
+            android:onClick="Jump">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="普通AbsListView" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/JumpAbsView2"
+            android:layout_width="0dp"
+            android:layout_height="140dp"
+            android:layout_weight="1"
+            android:background="@android:color/holo_blue_bright"
+            android:gravity="center"
+            android:onClick="Jump">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="多子布局AbsListView" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:id="@+id/RecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="140dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@android:color/holo_blue_bright"
+            android:gravity="center"
+            android:onClick="Jump">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="普通RecyclerView" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/RecyclerView2"
+            android:layout_width="0dp"
+            android:layout_height="140dp"
+            android:layout_weight="1"
+            android:background="@android:color/holo_blue_bright"
+            android:gravity="center"
+            android:onClick="Jump">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="多子布局RecyclerView" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
