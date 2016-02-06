@@ -38,7 +38,12 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
     @Override
     public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //TODO 数组越界的错误并没有扑捉,想一种优雅的方式
+        if(viewType<0||viewType>mLayoutId.length){
+            throw new ArrayIndexOutOfBoundsException("checkLayout > LayoutId.length");
+        }
+        if(mLayoutId.length==0){
+            throw new ArrayIndexOutOfBoundsException("not layoutId");
+        }
         int layoutId=mLayoutId[viewType];
         View view=inflateItemView(layoutId,parent);
         BaseRecyclerViewHolder viewHolder = (BaseRecyclerViewHolder) view.getTag();
@@ -75,7 +80,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        return mList==null?0:mList.size();
     }
 
     /**

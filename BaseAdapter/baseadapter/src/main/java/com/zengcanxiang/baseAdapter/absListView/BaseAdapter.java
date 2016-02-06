@@ -53,6 +53,9 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
         if (layoutIds == null) {
             layoutId = checkLayoutId(position, mList.get(position));
         } else {
+            if(layoutIds.length==0){
+                 throw new ArrayIndexOutOfBoundsException("not layoutId");
+            }
             layoutId = layoutIds[checkLayout(position, mList.get(position))];
         }
         return layoutId;
@@ -92,7 +95,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 
     @Override
     public int getCount() {
-        return mList.size();
+        return mList==null?0:mList.size();
     }
 
     @Override
