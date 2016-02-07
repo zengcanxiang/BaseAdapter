@@ -59,7 +59,7 @@ private class ExampleListAdapter extends HelperAdapter<String> {
         }
     }
 ```
-recyclerView的Adapter使用和以上示例差不多
+recyclerView的Adapter和absListView的adapter两者是差不多的
 <a href="https://github.com/zengcanxiang/BaseAdapter/tree/master/BaseAdapter/app">example项目</a>
 
 ### License
