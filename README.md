@@ -24,7 +24,7 @@ private class ExampleListAdapter extends HelperAdapter<String> {
         }
     }
 ```
-####2.多子布局的absListView
+####2.多子布局的recyclerView
 ```java
  private class MyRecyAdapter extends BaseRecyclerViewAdapter<Msg> {
         /**
