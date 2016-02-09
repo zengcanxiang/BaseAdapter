@@ -111,7 +111,7 @@ public class BaseRecyclerViewHolder extends RecyclerView.ViewHolder {
 
     /**
      * Will set text color of a TextView.
-     *
+     * @param context
      * @param viewId       viewId
      * @param textColorRes colorId
      * @return The BaseRecyclerViewHolder for chaining.

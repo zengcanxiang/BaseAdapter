@@ -7,31 +7,31 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * 万能适配Holder,减少赘于代码和加快开发流程
+ * <p>万能适配Holder,减少赘于代码和加快开发流程</p>
  *
  * @author zcx
  */
 public class BaseViewHolder {
 
     /**
-     * 保存小控件的集合
+     * <p>保存小控件的集合</p>
      */
     private SparseArray<View> mViews = new SparseArray<View>();
     /**
-     * 保存布局view的集合
+     * <p>保存布局view的集合</p>
      */
     private SparseArray<View> mConvertViews = new SparseArray<View>();
     private int mPosition;
     /**
-     * 单个布局view
+     * <p>单个布局view</p>
      */
     private View mConvertView;
     /**
-     * layoutId
+     * <p>layoutId</p>
      */
     private int mLayoutId;
     /**
-     * 上下文
+     * <p>上下文</p>
      */
     protected Context mContext;
     public BaseViewHolder(Context context, int position, ViewGroup parent,

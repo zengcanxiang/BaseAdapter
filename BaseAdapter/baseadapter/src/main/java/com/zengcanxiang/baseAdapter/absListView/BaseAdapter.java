@@ -31,7 +31,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
         this.mLInflater = LayoutInflater.from(mContext);
     }
     /**
-     * 在初始化的时候不能确定layoutId,才可以不提供,但是必须重写{@link #checkLayoutId(int, T)}方法
+     * <p>在初始化的时候不能确定layoutId,才可以不提供,但是必须重checkLayoutId方法</p>
      * @deprecated
      * @param data    数据源
      * @param context 上下文
@@ -62,7 +62,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
     }
 
     /**
-     * 实现具体控件的获取和赋值等业务
+     * <p>实现具体控件的获取和赋值等业务</p>
      *
      * @param viewHolder viewHolder
      * @param position   position
@@ -70,7 +70,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
      */
     public abstract void convert(HelperHolder viewHolder, int position, T   t);
     /**
-     * 根据业务逻辑确定layoutId位置,使用在listView中有几种样式
+     * <p>根据业务逻辑确定layoutId位置,使用在listView中有几种样式</p>
      *
      * @param position 所在位置
      * @param item     对应数据
@@ -80,7 +80,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
         return 0;
     }
     /**
-     * 根据业务逻辑确定layoutId,只会在构造方法没有传入layoutId时生效
+     * <p>根据业务逻辑确定layoutId,只会在构造方法没有传入layoutId时生效</p>
      *
      * @param position 所在位置
      * @param item     对应数据

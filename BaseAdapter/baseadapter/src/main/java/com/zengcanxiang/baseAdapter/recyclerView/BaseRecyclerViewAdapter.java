@@ -56,7 +56,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
     /**
      * 解析布局资源
-     *
+     * @param layoutId
      * @param viewGroup
      * @return
      */
