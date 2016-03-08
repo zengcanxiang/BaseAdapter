@@ -90,4 +90,4 @@ See [`LICENSE`](LICENSE) for full of the license text.
     limitations under the License.
 
 
-  [1]: https://github.com/zengcanxiang/BaseAdapter/blob/master/README-cn
+  [1]: https://github.com/zengcanxiang/BaseAdapter/blob/master/README-zh.md
