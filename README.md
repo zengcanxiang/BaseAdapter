@@ -1,20 +1,21 @@
 # BaseAdapter
-这个项目是为了封装listview或者GridView还有RecyclerView的Adapter.
-此项目是观看了 <a href="http://www.imooc.com/learn/372">张鸿洋老师的视频</a>而受到的启发.
-在github上也有很多前辈们的项目:
+This project is to encapsulate listview or GridView as well as Adapter. RecyclerView this project is to watch the Zhang Hongyang teacher's video and inspired by the also has a lot of older projects on the github:
 <ul>
   <li><a href="https://github.com/tianzhijiexian/CommonAdapter">CommonAdapter</a></li>
   <li><a href="https://github.com/hongyangAndroid/base-adapter-helper">hongyangAndroid:base-adapter-helper</a></li>
   <li><a href="https://github.com/JoanZapata/base-adapter-helper">JoanZapata:base-adapter-helper</a></li>
   <li>.....</li>
 </ul>
-但是以个人习惯来说,感觉项目使用起来都是比较复杂的,就吸取精华,简化了一下使用.
+But in terms of personal habits, it is more complex to feel the project, to absorb the essence, to simplify the use of it.
+
+[中文文档][1]
+
 ## compile
 ```java
 compile 'com.zengcanxiang.baseAdapter:baseadapter:1.0.0'
 ```   
-###使用范例
-####1.普通absListView
+###Example
+####1.ordinary absListView
 ```java
 private class ExampleListAdapter extends HelperAdapter<String> {
 
@@ -28,13 +29,13 @@ private class ExampleListAdapter extends HelperAdapter<String> {
         }
     }
 ```
-####2.多子布局的recyclerView
+####2.Multiple sub layout recyclerView
 ```java
  private class MyRecyAdapter extends BaseRecyclerViewAdapter<Msg> {
         /**
-         * @param data     数据源
-         * @param context  上下文
-         * @param layoutId 布局Id
+         * @param data     data source
+         * @param context  context
+         * @param layoutId layoutId
          */
         public MyRecyAdapter(List<Msg> data, Context context, int... layoutId) {
             super(data, context, layoutId);
@@ -55,16 +56,18 @@ private class ExampleListAdapter extends HelperAdapter<String> {
 
         @Override
         public int checkLayout(Msg item, int position) {
-            /**
-             * 多子布局样式重写checkLayout()方法，返回对应的index
-             * 本例子因为msg的Type对应的就是0和1,所以就直接返回msgType
+             /**
+             * Multi layout style override checkLayout () method
+             * returns the corresponding index
+             * this example because the Type MSG corresponds to 0 and 
+             * 1, so directly to return msgType
              */
             return item.getType();
         }
     }
 ```
-recyclerView的Adapter和absListView的adapter两者是差不多的
-<a href="https://github.com/zengcanxiang/BaseAdapter/tree/master/BaseAdapter/app">example项目</a>
+Adapter's absListView and adapter's recyclerView are almost the same.
+<a href="https://github.com/zengcanxiang/BaseAdapter/tree/master/BaseAdapter/app">example</a>
 
 ### License
 
@@ -86,3 +89,5 @@ See [`LICENSE`](LICENSE) for full of the license text.
     See the License for the specific language governing permissions and
     limitations under the License.
 
+
+  [1]: https://github.com/zengcanxiang/BaseAdapter/blob/master/README-cn
