@@ -21,6 +21,7 @@ private class ExampleListAdapter extends HelperAdapter<String> {
 
         public ExampleListAdapter(List<String> mList, Context context, int... layoutIds) {
             super(mList, context, layoutIds);
+            //super(mList,context,R.layout.xxxx);
         }
 
         @Override
@@ -39,6 +40,7 @@ private class ExampleListAdapter extends HelperAdapter<String> {
          */
         public MyRecyAdapter(List<Msg> data, Context context, int... layoutId) {
             super(data, context, layoutId);
+            //super(mList,context,R.layout.xxx1,R.layout.xxx2);
         }
 
         @Override
