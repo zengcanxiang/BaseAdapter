@@ -1,6 +1,8 @@
-package com.zengcanxiang.baseAdapter.absListView;
+package com.zengcanxiang.baseAdapter.recyclerView;
 
 import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.zengcanxiang.baseAdapter.interFace.DataHelper;
 
@@ -11,27 +13,59 @@ import java.util.List;
  *
  * @author zengcx
  */
-public abstract class HelperAdapter<T> extends BaseAdapter<T> implements DataHelper<T> {
-
-    public HelperAdapter(List<T> mList, Context context, int... layoutIds) {
-        super(mList, context, layoutIds);
-    }
-
-    @Deprecated
-    public HelperAdapter(List<T> mList, Context context) {
-        super(mList, context);
+public abstract class HelperRecyclerViewAdapter<T> extends BaseRecyclerViewAdapter<T>
+        implements DataHelper<T> {
+    /**
+     * @param data     数据源
+     * @param context  上下文
+     * @param layoutId 布局Id
+     */
+    public HelperRecyclerViewAdapter(List<T> data, Context context, int... layoutId) {
+        super(data, context, layoutId);
     }
 
     @Override
-    public <BH extends BaseViewHolder> void convert(BH viewHolder, int position, T t) {
-        HelperHolder holder = (HelperHolder) viewHolder;
-        HelpConvert(holder, position, t);
+    public BH onCreateViewHolder(ViewGroup parent, int viewType) {
+        HelperRecyclerViewHolder holder;
+        if (viewType < 0 || viewType > mLayoutId.length) {
+            throw new ArrayIndexOutOfBoundsException("checkLayout > LayoutId.length");
+        }
+        if (mLayoutId.length == 0) {
+            throw new IllegalArgumentException("not layoutId");
+        }
+        int layoutId = mLayoutId[viewType];
+        View view = inflateItemView(layoutId, parent);
+        holder = (HelperRecyclerViewHolder) view.getTag();
+        if (holder == null || holder.getLayoutId() != layoutId) {
+            holder = new HelperRecyclerViewHolder(mContext, layoutId, view);
+        }
+        return holder;
     }
 
+
+    @Override
+    protected void onBindData(BH viewHolder, int position, T item) {
+        HelperRecyclerViewHolder helperViewHolder = (HelperRecyclerViewHolder) viewHolder;
+
+        HelperBindData(helperViewHolder, position, item);
+        
+        //赋值相关事件,例如点击长按等
+        setListener(helperViewHolder, position, item);
+    }
+
+    protected abstract void HelperBindData(HelperRecyclerViewHolder viewHolder, int position, T item);
+
     /**
-     * <p>实现具体控件的获取和赋值等业务</p>
+     * 绑定相关事件,例如点击长按等,默认空实现
+     *
+     * @param viewHolder
+     * @param position   数据的位置
+     * @param item       数据项
      */
-    public abstract void HelpConvert(HelperHolder viewHolder, int position, T t);
+    protected void setListener(HelperRecyclerViewHolder viewHolder, int position, T item) {
+
+    }
+
 
     @Override
     public boolean isEnabled(int position) {
@@ -80,7 +114,7 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T> implements DataHel
 
     @Override
     public T getData(int index) {
-        return getCount() == 0 ? null : mList.get(index);
+        return getItemCount() == 0 ? null : mList.get(index);
     }
 
 
@@ -128,6 +162,5 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T> implements DataHel
     public boolean contains(T data) {
         return mList.contains(data);
     }
-
 
 }

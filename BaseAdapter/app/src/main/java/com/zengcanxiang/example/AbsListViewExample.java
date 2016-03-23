@@ -48,7 +48,7 @@ public class AbsListViewExample extends AppCompatActivity {
         }
 
         @Override
-        public void convert(HelperHolder viewHolder, int position, String s) {
+        public void HelpConvert(HelperHolder viewHolder, int position, String s) {
             viewHolder.setText(R.id.example_item_text_view,"listView"+s);
         }
     }
@@ -62,7 +62,7 @@ public class AbsListViewExample extends AppCompatActivity {
         }
 
         @Override
-        public void convert(HelperHolder viewHolder, int position, String s) {
+        public void HelpConvert(HelperHolder viewHolder, int position, String s) {
             viewHolder.setText(R.id.example_item_text_view,"gridView"+s);
         }
     }

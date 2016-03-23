@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 /**
  * <p>万能适配Holder,减少赘于代码和加快开发流程</p>
  *
- * @author zcx
+ * @author zengcx
  */
 public class BaseViewHolder {
 
@@ -29,26 +29,29 @@ public class BaseViewHolder {
     /**
      * <p>layoutId</p>
      */
-    private int mLayoutId;
+    protected int mLayoutId;
     /**
      * <p>上下文</p>
      */
     protected Context mContext;
+
     public BaseViewHolder(Context context, int position, ViewGroup parent,
                           int layoutId) {
-        mConvertView= mConvertViews.get(layoutId);
+        mConvertView = mConvertViews.get(layoutId);
         mPosition = position;
-        mContext=context;
-        mLayoutId=layoutId;
-        if(mConvertView==null){
+        mContext = context;
+        mLayoutId = layoutId;
+        if (mConvertView == null) {
             mConvertView = LayoutInflater.from(context).inflate(layoutId, parent,
                     false);
-            mConvertViews.put(layoutId,mConvertView);
+            mConvertViews.put(layoutId, mConvertView);
             mConvertView.setTag(this);
         }
     }
-    public BaseViewHolder(){
+
+    public BaseViewHolder() {
     }
+
     /**
      * 获取BaseViewHolder实例
      *
@@ -58,17 +61,17 @@ public class BaseViewHolder {
      * @param layoutId 对应的布局Id
      * @return BaseViewHolder实例
      */
-    public BaseViewHolder get(Context context, int position,
-                                     View convertView, ViewGroup parent, int layoutId) {
+    public <BH extends BaseViewHolder> BH get(Context context, int position,
+                                              View convertView, ViewGroup parent, int layoutId) {
         if (convertView == null) {
-            return new BaseViewHolder(context, position, parent, layoutId);
+            return (BH) new BaseViewHolder(context, position, parent, layoutId);
         } else {
             BaseViewHolder bHolder = (BaseViewHolder) convertView.getTag();
-            if(bHolder.mLayoutId!=layoutId){
-                return new BaseViewHolder(context, position, parent, layoutId);
+            if (bHolder.mLayoutId != layoutId) {
+                return (BH) new BaseViewHolder(context, position, parent, layoutId);
             }
             bHolder.setPosition(position);
-            return bHolder;
+            return (BH) bHolder;
         }
     }
 
@@ -98,6 +101,7 @@ public class BaseViewHolder {
     public View getConvertView() {
         return mConvertViews.valueAt(0);
     }
+
     /**
      * 返回队列中指定layoutId对应的view
      *
@@ -112,7 +116,7 @@ public class BaseViewHolder {
         this.mPosition = mPosition;
     }
 
-    public int getLayoutId(){
+    public int getLayoutId() {
         return mLayoutId;
     }
 }

@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.zengcanxiang.baseAdapter.recyclerView.BaseRecyclerViewAdapter;
-import com.zengcanxiang.baseAdapter.recyclerView.BaseRecyclerViewHolder;
+import com.zengcanxiang.baseAdapter.recyclerView.HelperRecyclerViewAdapter;
+import com.zengcanxiang.baseAdapter.recyclerView.HelperRecyclerViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,22 +30,24 @@ public class RecyclerViewExampleTwo extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(adapter);
     }
+
     private void setData() {
-        Msg msg=new Msg(0,"你好!");
+        Msg msg = new Msg(0, "你好!");
         mList.add(msg);
-        msg=new Msg(1,"你也好啊!");
+        msg = new Msg(1, "你也好啊!");
         mList.add(msg);
-        msg=new Msg(0,"这是我的开源之路的第一个项目!");
+        msg = new Msg(0, "这是我的开源之路的第一个项目!");
         mList.add(msg);
-        msg=new Msg(1,"我来看看!");
+        msg = new Msg(1, "我来看看!");
         mList.add(msg);
-        msg=new Msg(0,"谢谢!");
+        msg = new Msg(0, "谢谢!");
         mList.add(msg);
-        msg=new Msg(1,"不用谢!");
+        msg = new Msg(1, "不用谢!");
         mList.add(msg);
 
     }
-    private class MyRecyAdapter extends BaseRecyclerViewAdapter<Msg> {
+
+    private class MyRecyAdapter extends HelperRecyclerViewAdapter<Msg> {
         /**
          * @param data     数据源
          * @param context  上下文
@@ -55,14 +57,15 @@ public class RecyclerViewExampleTwo extends AppCompatActivity {
             super(data, context, layoutId);
         }
 
+
         @Override
-        protected void onBindData(BaseRecyclerViewHolder viewHolder, int position, Msg item) {
-            switch (item.getType()){
+        protected void HelperBindData(HelperRecyclerViewHolder viewHolder, int position, Msg item) {
+            switch (item.getType()) {
                 case 0:
-                    viewHolder.setText(R.id.chat_send_content,item.getMsg());
+                    viewHolder.setText(R.id.chat_send_content, item.getMsg());
                     break;
                 case 1:
-                    viewHolder.setText(R.id.chat_from_content,item.getMsg());
+                    viewHolder.setText(R.id.chat_from_content, item.getMsg());
                     break;
             }
         }
