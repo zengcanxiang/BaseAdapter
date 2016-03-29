@@ -29,6 +29,20 @@ private class ExampleListAdapter extends HelperAdapter<String> {
         }
     }
 ```
+
+```java
+
+    /因为这里是将layoutId当作参数传进去，一般的话，会在adapter内部就进行配置
+    //如果adapter的代码少，无须处理很多逻辑，更加适合创建内部类。
+    //demo就是创建的内部类
+    
+    ExampleListAdapter adapter1=new ExampleListAdapter(mList,this,R.layout.example_item);
+    ExampleGridAdapter adapter2=new ExampleGridAdapter(mList,this,R.layout.example_item);
+
+    examplelistview.setAdapter(adapter1);
+    examplegridview.setAdapter(adapter2);
+```
+
 ####2.多子布局的recyclerView
 ```java
  private class MyRecyAdapter extends BaseRecyclerViewAdapter<Msg> {
@@ -65,6 +79,17 @@ private class ExampleListAdapter extends HelperAdapter<String> {
         }
     }
 ```
+
+```java
+    
+    //checklayou的返回值和HelperBindData中判断的position就是这两个id的顺序
+    //因为内部会按照checklayou方法的返回值去取在构造方法中传入的id数组中对应的布局文件
+    MyRecyAdapter adapter = new MyRecyAdapter(mList, this, R.layout.example_different_item_right, R.layout.example_different_item_left);
+    recyclerView.setLayoutManager(mLayoutManager);
+    recyclerView.setAdapter(adapter);
+    
+```
+
 recyclerView的Adapter和absListView的adapter两者是差不多的
 <a href="https://github.com/zengcanxiang/BaseAdapter/tree/master/BaseAdapter/app">example项目</a>
 
