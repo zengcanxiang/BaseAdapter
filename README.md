@@ -58,13 +58,8 @@ private class ExampleListAdapter extends HelperAdapter<String> {
 
 
         @Override
-<<<<<<< HEAD
-        protected void HelperBindData(BaseRecyclerViewHolder viewHolder, int position, Msg item) {
-            switch (item.getType()){
-=======
         protected void HelperBindData(HelperRecyclerViewHolder viewHolder, int position, Msg item) {
             switch (item.getType()) {
->>>>>>> origin/master
                 case 0:
                     viewHolder.setText(R.id.chat_send_content, item.getMsg());
                     break;
