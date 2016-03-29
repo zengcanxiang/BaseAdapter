@@ -46,25 +46,30 @@ private class ExampleListAdapter extends HelperAdapter<String> {
 ```
 ####2.Multiple sub layout recyclerView
 ```java
- private class MyRecyAdapter extends BaseRecyclerViewAdapter<Msg> {
+ private class MyRecyAdapter extends HelperRecyclerViewAdapter<Msg> {
         /**
-         * @param data     data source
-         * @param context  context
-         * @param layoutId layoutId
+         * @param data     数据源
+         * @param context  上下文
+         * @param layoutId 布局Id
          */
         public MyRecyAdapter(List<Msg> data, Context context, int... layoutId) {
             super(data, context, layoutId);
-            //super(mList,context,R.layout.xxx1,R.layout.xxx2);
         }
 
+
         @Override
+<<<<<<< HEAD
         protected void HelperBindData(BaseRecyclerViewHolder viewHolder, int position, Msg item) {
             switch (item.getType()){
+=======
+        protected void HelperBindData(HelperRecyclerViewHolder viewHolder, int position, Msg item) {
+            switch (item.getType()) {
+>>>>>>> origin/master
                 case 0:
-                    viewHolder.setText(R.id.chat_send_content,item.getMsg());
+                    viewHolder.setText(R.id.chat_send_content, item.getMsg());
                     break;
                 case 1:
-                    viewHolder.setText(R.id.chat_from_content,item.getMsg());
+                    viewHolder.setText(R.id.chat_from_content, item.getMsg());
                     break;
             }
         }
@@ -72,11 +77,9 @@ private class ExampleListAdapter extends HelperAdapter<String> {
 
         @Override
         public int checkLayout(Msg item, int position) {
-             /**
-             * Multi layout style override checkLayout () method
-             * returns the corresponding index
-             * this example because the Type MSG corresponds to 0 and 
-             * 1, so directly to return msgType
+            /**
+             * 多子布局样式重写checkLayout()方法，返回对应的index
+             * 本例子因为msg的Type对应的就是0和1,所以就直接返回msgType
              */
             return item.getType();
         }

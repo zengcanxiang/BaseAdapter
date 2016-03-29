@@ -11,7 +11,7 @@
 但是以个人习惯来说,感觉项目使用起来都是比较复杂的,就吸取精华,简化了一下使用.
 ## compile
 ```java
-compile 'com.zengcanxiang.baseAdapter:baseadapter:1.0.0'
+compile 'com.zengcanxiang.baseAdapter:baseadapter:1.3.0'
 ```   
 ###使用范例
 ####1.普通absListView
@@ -45,7 +45,7 @@ private class ExampleListAdapter extends HelperAdapter<String> {
 
 ####2.多子布局的recyclerView
 ```java
- private class MyRecyAdapter extends BaseRecyclerViewAdapter<Msg> {
+ private class MyRecyAdapter extends HelperRecyclerViewAdapter<Msg> {
         /**
          * @param data     数据源
          * @param context  上下文
@@ -53,17 +53,17 @@ private class ExampleListAdapter extends HelperAdapter<String> {
          */
         public MyRecyAdapter(List<Msg> data, Context context, int... layoutId) {
             super(data, context, layoutId);
-            //super(mList,context,R.layout.xxx1,R.layout.xxx2);
         }
 
+
         @Override
-        protected void onBindData(BaseRecyclerViewHolder viewHolder, int position, Msg item) {
-            switch (item.getType()){
+        protected void HelperBindData(HelperRecyclerViewHolder viewHolder, int position, Msg item) {
+            switch (item.getType()) {
                 case 0:
-                    viewHolder.setText(R.id.chat_send_content,item.getMsg());
+                    viewHolder.setText(R.id.chat_send_content, item.getMsg());
                     break;
                 case 1:
-                    viewHolder.setText(R.id.chat_from_content,item.getMsg());
+                    viewHolder.setText(R.id.chat_from_content, item.getMsg());
                     break;
             }
         }
