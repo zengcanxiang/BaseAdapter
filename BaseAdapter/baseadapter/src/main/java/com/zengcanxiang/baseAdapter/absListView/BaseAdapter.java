@@ -18,7 +18,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
     protected Context mContext;
     protected LayoutInflater mLInflater;
     protected int[] layoutIds;
-    private BaseViewHolder holder = new HelperHolder();
+    private BaseViewHolder holder = new HelperViewHolder();
 
     /**
      * @param data      数据源
@@ -33,7 +33,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
     }
 
     /**
-     * <p>在初始化的时候不能确定layoutId,才可以不提供,但是必须重checkLayoutId方法</p>
+     * <p>在初始化的时候不能确定layoutId,才可以不提供,但是必须重写checkLayoutId方法</p>
      *
      * @param data    数据源
      * @param context 上下文
@@ -53,15 +53,15 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
         return holder.getConvertView(layoutId);
     }
 
-    protected int getViewCheckLayoutId(int position) {
+    private int getViewCheckLayoutId(int position) {
         int layoutId;
         if (layoutIds == null) {
             layoutId = checkLayoutId(position, mList.get(position));
         } else {
-            if (layoutIds.length == 0) {
+            if (layoutIds==null||layoutIds.length == 0) {
                 throw new ArrayIndexOutOfBoundsException("not layoutId");
             }
-            layoutId = layoutIds[checkLayout(position, mList.get(position))];
+            layoutId = layoutIds[checkLayoutIndex(position, mList.get(position))];
         }
         return layoutId;
     }
@@ -82,7 +82,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
      * @param item     对应数据
      * @return 默认使用第一个, 返回下标, 从0开始
      */
-    public int checkLayout(int position, T item) {
+    public int checkLayoutIndex(int position, T item) {
         return 0;
     }
 

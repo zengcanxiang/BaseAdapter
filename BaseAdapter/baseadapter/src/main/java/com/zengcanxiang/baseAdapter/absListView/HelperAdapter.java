@@ -24,14 +24,14 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T> implements DataHel
 
     @Override
     public <BH extends BaseViewHolder> void convert(BH viewHolder, int position, T t) {
-        HelperHolder holder = (HelperHolder) viewHolder;
+        HelperViewHolder holder = (HelperViewHolder) viewHolder;
         HelpConvert(holder, position, t);
     }
 
     /**
      * <p>实现具体控件的获取和赋值等业务</p>
      */
-    public abstract void HelpConvert(HelperHolder viewHolder, int position, T t);
+    public abstract void HelpConvert(HelperViewHolder viewHolder, int position, T t);
 
     @Override
     public boolean isEnabled(int position) {

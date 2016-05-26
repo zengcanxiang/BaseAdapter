@@ -13,31 +13,31 @@ import java.util.List;
  *
  * @author zengcx
  */
-public abstract class HelperRecyclerViewAdapter<T> extends BaseRecyclerViewAdapter<T>
+public abstract class HelperAdapter<T> extends BaseAdapter<T>
         implements DataHelper<T> {
     /**
      * @param data     数据源
      * @param context  上下文
      * @param layoutId 布局Id
      */
-    public HelperRecyclerViewAdapter(List<T> data, Context context, int... layoutId) {
+    public HelperAdapter(List<T> data, Context context, int... layoutId) {
         super(data, context, layoutId);
     }
 
     @Override
     public BH onCreateViewHolder(ViewGroup parent, int viewType) {
-        HelperRecyclerViewHolder holder;
+        HelperViewHolder holder;
         if (viewType < 0 || viewType > mLayoutId.length) {
-            throw new ArrayIndexOutOfBoundsException("checkLayout > LayoutId.length");
+            throw new ArrayIndexOutOfBoundsException("checkLayoutIndex > LayoutId.length");
         }
         if (mLayoutId.length == 0) {
             throw new IllegalArgumentException("not layoutId");
         }
         int layoutId = mLayoutId[viewType];
         View view = inflateItemView(layoutId, parent);
-        holder = (HelperRecyclerViewHolder) view.getTag();
+        holder = (HelperViewHolder) view.getTag();
         if (holder == null || holder.getLayoutId() != layoutId) {
-            holder = new HelperRecyclerViewHolder(mContext, layoutId, view);
+            holder = new HelperViewHolder(mContext, layoutId, view);
         }
         return holder;
     }
@@ -45,7 +45,7 @@ public abstract class HelperRecyclerViewAdapter<T> extends BaseRecyclerViewAdapt
 
     @Override
     protected void onBindData(BH viewHolder, int position, T item) {
-        HelperRecyclerViewHolder helperViewHolder = (HelperRecyclerViewHolder) viewHolder;
+        HelperViewHolder helperViewHolder = (HelperViewHolder) viewHolder;
 
         HelperBindData(helperViewHolder, position, item);
         
@@ -53,7 +53,7 @@ public abstract class HelperRecyclerViewAdapter<T> extends BaseRecyclerViewAdapt
         setListener(helperViewHolder, position, item);
     }
 
-    protected abstract void HelperBindData(HelperRecyclerViewHolder viewHolder, int position, T item);
+    protected abstract void HelperBindData(HelperViewHolder viewHolder, int position, T item);
 
     /**
      * 绑定相关事件,例如点击长按等,默认空实现
@@ -62,7 +62,7 @@ public abstract class HelperRecyclerViewAdapter<T> extends BaseRecyclerViewAdapt
      * @param position   数据的位置
      * @param item       数据项
      */
-    protected void setListener(HelperRecyclerViewHolder viewHolder, int position, T item) {
+    protected void setListener(HelperViewHolder viewHolder, int position, T item) {
 
     }
 

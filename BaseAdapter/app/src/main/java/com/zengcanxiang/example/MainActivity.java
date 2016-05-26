@@ -32,6 +32,14 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(MainActivity.this, RecyclerViewExampleTwo.class);
                 startActivity(intent);
                 break;
+            case R.id.expandableListView:
+                intent = new Intent(MainActivity.this, ExpandableListViewExample.class);
+                startActivity(intent);
+                break;
+            case R.id.expandableListView2:
+                intent = new Intent(MainActivity.this, ExpandableListViewExampleTwo.class);
+                startActivity(intent);
+                break;
         }
     }
 }

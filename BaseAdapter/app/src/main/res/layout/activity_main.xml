@@ -26,7 +26,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="普通AbsListView" />
+                android:gravity="center"
+                android:text="普通\nAbsListView" />
         </LinearLayout>
 
         <LinearLayout
@@ -41,7 +42,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="多子布局AbsListView" />
+                android:gravity="center"
+                android:text="多子布局\nAbsListView" />
         </LinearLayout>
     </LinearLayout>
 
@@ -63,7 +65,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="普通RecyclerView" />
+                android:gravity="center"
+                android:text="普通\nRecyclerView" />
         </LinearLayout>
 
         <LinearLayout
@@ -78,7 +81,47 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="多子布局RecyclerView" />
+                android:gravity="center"
+                android:text="多子布局\nRecyclerView" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:id="@+id/expandableListView"
+            android:layout_width="0dp"
+            android:layout_height="140dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@android:color/holo_blue_bright"
+            android:gravity="center"
+            android:onClick="Jump">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="普通\nexpandableListView" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/expandableListView2"
+            android:layout_width="0dp"
+            android:layout_height="140dp"
+            android:layout_weight="1"
+            android:background="@android:color/holo_blue_bright"
+            android:gravity="center"
+            android:onClick="Jump">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="多子布局\nexpandableListView" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

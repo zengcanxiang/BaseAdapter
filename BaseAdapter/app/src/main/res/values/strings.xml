@@ -5,6 +5,8 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_recycler_view_example">RecyclerViewExample</string>
     <string name="title_activity_abs_list_view_example">AbsListViewExample</string>
+    <string name="title_activity_expandable_list_view_example">ExpandableListViewExample</string>
+    <string name="title_activity_expandable_list_view_example_two">ExpandableListViewExampleTwo</string>
     <string name="title_activity_abs_list_view_example_two">AbsListViewExampleTwo</string>
     <string name="title_activity_recycler_view_example_two">RecyclerViewExampleTwo</string>
 </resources>

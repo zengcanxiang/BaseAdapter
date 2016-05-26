@@ -7,8 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
-import com.zengcanxiang.baseAdapter.recyclerView.HelperRecyclerViewAdapter;
-import com.zengcanxiang.baseAdapter.recyclerView.HelperRecyclerViewHolder;
+import com.zengcanxiang.baseAdapter.recyclerView.HelperAdapter;
+import com.zengcanxiang.baseAdapter.recyclerView.HelperViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class RecyclerViewExample extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private class MyRecyAdapter extends HelperRecyclerViewAdapter<String> {
+    private class MyRecyAdapter extends HelperAdapter<String> {
         /**
          * @param data     数据源
          * @param context  上下文
@@ -46,7 +46,7 @@ public class RecyclerViewExample extends AppCompatActivity {
         }
 
         @Override
-        protected void HelperBindData(HelperRecyclerViewHolder viewHolder, int position, String item) {
+        protected void HelperBindData(HelperViewHolder viewHolder, int position, String item) {
             TextView view = viewHolder.getView(R.id.example_item_text_view);
             view.setText(item);
         }

@@ -35,7 +35,7 @@ public class BaseViewHolder {
      */
     protected Context mContext;
 
-    public BaseViewHolder(Context context, int position, ViewGroup parent,
+    protected BaseViewHolder(Context context, int position, ViewGroup parent,
                           int layoutId) {
         mConvertView = mConvertViews.get(layoutId);
         mPosition = position;

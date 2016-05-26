@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
 import com.zengcanxiang.baseAdapter.absListView.HelperAdapter;
-import com.zengcanxiang.baseAdapter.absListView.HelperHolder;
+import com.zengcanxiang.baseAdapter.absListView.HelperViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +51,7 @@ public class AbsListViewExampleTwo extends AppCompatActivity {
         }
 
         @Override
-        public void HelpConvert(HelperHolder viewHolder, int position, Msg msg) {
+        public void HelpConvert(HelperViewHolder viewHolder, int position, Msg msg) {
             switch (msg.getType()){
                 case  0:
                     viewHolder.setText(R.id.chat_send_content,msg.getMsg());
@@ -63,7 +63,7 @@ public class AbsListViewExampleTwo extends AppCompatActivity {
         }
 
         @Override
-        public int checkLayout(int position, Msg item) {
+        public int checkLayoutIndex(int position, Msg item) {
             return item.getType();
         }
     }

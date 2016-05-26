@@ -5,8 +5,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.widget.Adapter;
 
-import com.zengcanxiang.baseAdapter.absListView.BaseViewHolder;
-import com.zengcanxiang.baseAdapter.recyclerView.BaseRecyclerViewHolder;
+import com.zengcanxiang.baseAdapter.recyclerView.BaseViewHolder;
 
 /**
  * adapter规范view操作接口
@@ -15,7 +14,7 @@ import com.zengcanxiang.baseAdapter.recyclerView.BaseRecyclerViewHolder;
  */
 public interface ViewHelper<VH> {
 
-    interface RecyclerView<VH extends BaseRecyclerViewHolder> {
+    interface RecyclerView<VH extends BaseViewHolder> {
         /**
          * 设置textView文本内容
          *
@@ -244,7 +243,7 @@ public interface ViewHelper<VH> {
         VH setRating(int viewId, float rating, int max);
     }
 
-    interface AbsListView<VH extends BaseViewHolder> {
+    interface AbsListView<VH extends com.zengcanxiang.baseAdapter.absListView.BaseViewHolder> {
         /**
          * 设置textView文本内容
          *

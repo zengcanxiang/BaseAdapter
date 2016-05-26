@@ -9,14 +9,14 @@ import android.view.View;
  *
  * @author zengcx
  */
-public class BaseRecyclerViewHolder extends BH {
+public class BaseViewHolder extends BH {
 
     private SparseArray<View> mViews = new SparseArray<>();
     private View mConvertView;
     private int mLayoutId;
     protected Context mContext;
 
-    public BaseRecyclerViewHolder(Context context, int layoutId, View itemView) {
+    public BaseViewHolder(Context context, int layoutId, View itemView) {
         super(itemView);
         this.mContext = context;
         this.mLayoutId = layoutId;

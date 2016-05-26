@@ -1,9 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.zengcanxiang.example.example.AbsListViewExample">
+    android:orientation="vertical">
 
 
     <LinearLayout
@@ -24,10 +22,10 @@
         android:layout_weight="1">
 
         <GridView
-            android:numColumns="3"
             android:id="@+id/example_grid_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:numColumns="3" />
 
     </LinearLayout>
 </LinearLayout>

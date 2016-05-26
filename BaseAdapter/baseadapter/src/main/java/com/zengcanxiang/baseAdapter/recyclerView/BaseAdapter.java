@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author zengcx
  */
-public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<BH> {
+public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BH> {
     protected List<T> mList;
     protected Context mContext;
     protected LayoutInflater mLInflater;
@@ -26,7 +26,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<BH
      * @param context  上下文
      * @param layoutId 布局Id
      */
-    public BaseRecyclerViewAdapter(List<T> data, Context context, int... layoutId) {
+    public BaseAdapter(List<T> data, Context context, int... layoutId) {
         this.mList = data;
         this.mLayoutId = layoutId;
         this.mContext = context;
@@ -35,22 +35,22 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<BH
 
     @Override
     public int getItemViewType(int position) {
-        return checkLayout(mList.get(position), position);
+        return checkLayoutIndex(mList.get(position), position);
     }
 
     @Override
     public BH onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType < 0 || viewType > mLayoutId.length) {
-            throw new ArrayIndexOutOfBoundsException("checkLayout > LayoutId.length");
+            throw new ArrayIndexOutOfBoundsException("checkLayoutIndex > LayoutId.length");
         }
         if (mLayoutId.length == 0) {
             throw new IllegalArgumentException("not layoutId");
         }
         int layoutId = mLayoutId[viewType];
         View view = inflateItemView(layoutId, parent);
-        BaseRecyclerViewHolder viewHolder = (BaseRecyclerViewHolder) view.getTag();
+        BaseViewHolder viewHolder = (BaseViewHolder) view.getTag();
         if (viewHolder == null || viewHolder.getLayoutId() != layoutId) {
-            viewHolder = new BaseRecyclerViewHolder(mContext, layoutId, view);
+            viewHolder = new BaseViewHolder(mContext, layoutId, view);
             return viewHolder;
         }
         return viewHolder;
@@ -93,7 +93,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<BH
      */
     protected abstract void onBindData(BH viewHolder, int position, T item);
 
-    public int checkLayout(T item, int position) {
+    public int checkLayoutIndex(T item, int position) {
         return 0;
     }
 

@@ -7,7 +7,7 @@ import android.widget.GridView;
 import android.widget.ListView;
 
 import com.zengcanxiang.baseAdapter.absListView.HelperAdapter;
-import com.zengcanxiang.baseAdapter.absListView.HelperHolder;
+import com.zengcanxiang.baseAdapter.absListView.HelperViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ public class AbsListViewExample extends AppCompatActivity {
         }
 
         @Override
-        public void HelpConvert(HelperHolder viewHolder, int position, String s) {
+        public void HelpConvert(HelperViewHolder viewHolder, int position, String s) {
             viewHolder.setText(R.id.example_item_text_view,"listView"+s);
         }
     }
@@ -62,7 +62,7 @@ public class AbsListViewExample extends AppCompatActivity {
         }
 
         @Override
-        public void HelpConvert(HelperHolder viewHolder, int position, String s) {
+        public void HelpConvert(HelperViewHolder viewHolder, int position, String s) {
             viewHolder.setText(R.id.example_item_text_view,"gridView"+s);
         }
     }

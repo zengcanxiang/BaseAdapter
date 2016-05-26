@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.zengcanxiang.baseAdapter.recyclerView.HelperRecyclerViewAdapter;
-import com.zengcanxiang.baseAdapter.recyclerView.HelperRecyclerViewHolder;
+import com.zengcanxiang.baseAdapter.recyclerView.HelperAdapter;
+import com.zengcanxiang.baseAdapter.recyclerView.HelperViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class RecyclerViewExampleTwo extends AppCompatActivity {
 
     }
 
-    private class MyRecyAdapter extends HelperRecyclerViewAdapter<Msg> {
+    private class MyRecyAdapter extends HelperAdapter<Msg> {
         /**
          * @param data     数据源
          * @param context  上下文
@@ -59,7 +59,7 @@ public class RecyclerViewExampleTwo extends AppCompatActivity {
 
 
         @Override
-        protected void HelperBindData(HelperRecyclerViewHolder viewHolder, int position, Msg item) {
+        protected void HelperBindData(HelperViewHolder viewHolder, int position, Msg item) {
             switch (item.getType()) {
                 case 0:
                     viewHolder.setText(R.id.chat_send_content, item.getMsg());
@@ -72,7 +72,7 @@ public class RecyclerViewExampleTwo extends AppCompatActivity {
 
 
         @Override
-        public int checkLayout(Msg item, int position) {
+        public int checkLayoutIndex(Msg item, int position) {
             /**
              * 多子布局样式重写checkLayout()方法，返回对应的index
              * 本例子因为msg的Type对应的就是0和1,所以就直接返回msgType
