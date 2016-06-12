@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import com.zengcanxiang.baseAdapter.interFace.DataHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,7 +49,7 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
         HelperViewHolder helperViewHolder = (HelperViewHolder) viewHolder;
 
         HelperBindData(helperViewHolder, position, item);
-        
+
         //赋值相关事件,例如点击长按等
         setListener(helperViewHolder, position, item);
     }
@@ -66,10 +67,16 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
 
     }
 
-
     @Override
-    public boolean isEnabled(int position) {
-        return position < mList.size();
+    public boolean isEnabled() {
+        if (mList == null) {
+            return false;
+        } else {
+            if (mList.size() <= 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -80,6 +87,9 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
 
     @Override
     public boolean addItemToLast(T data) {
+        if (!isEnabled()) {
+            addItemToHead(data);
+        }
         boolean result = mList.add(data);
         notifyDataSetChanged();
         return result;
@@ -94,13 +104,17 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
 
     @Override
     public boolean addItemsToLast(List<T> datas) {
-        return mList.addAll(datas);
+        if (!isEnabled()) {
+            addItemsToHead(datas);
+        }
+        return addAll(mList.size() - 1, datas);
     }
 
 
     @Override
     public boolean addAll(int startPosition, List<T> datas) {
-        boolean result = mList.addAll(startPosition, datas);
+        initList();
+        boolean result = mList.addAll(startPosition < 0 ? 0 : startPosition, datas);
         notifyDataSetChanged();
         return result;
     }
@@ -108,6 +122,7 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
 
     @Override
     public void add(int startPosition, T data) {
+        initList();
         mList.add(startPosition, data);
         notifyDataSetChanged();
     }
@@ -126,6 +141,7 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
 
     @Override
     public void alterObj(int index, T data) {
+        initList();
         mList.set(index, data);
         notifyDataSetChanged();
     }
@@ -133,6 +149,9 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
 
     @Override
     public boolean remove(T data) {
+        if (mList == null) {
+            throw new IllegalArgumentException("list is null,cannot execute");
+        }
         boolean result = mList.remove(data);
         notifyDataSetChanged();
         return result;
@@ -140,6 +159,9 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
 
     @Override
     public void removeToIndex(int index) {
+        if (mList == null) {
+            throw new IllegalArgumentException("list is null,cannot execute");
+        }
         mList.remove(index);
         notifyDataSetChanged();
     }
@@ -147,12 +169,14 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
 
     @Override
     public void replaceAll(List<T> data) {
+        initList();
         mList.clear();
         addAll(0, data);
     }
 
     @Override
     public void clear() {
+        initList();
         mList.clear();
         notifyDataSetChanged();
     }
@@ -160,7 +184,14 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
 
     @Override
     public boolean contains(T data) {
+        initList();
         return mList.contains(data);
+    }
+
+    private void initList() {
+        if (mList == null) {
+            mList = new ArrayList<>();
+        }
     }
 
 }

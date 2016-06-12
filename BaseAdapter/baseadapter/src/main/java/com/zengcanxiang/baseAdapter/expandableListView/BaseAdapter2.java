@@ -11,6 +11,13 @@ import com.zengcanxiang.baseAdapter.absListView.HelperViewHolder;
 
 import java.util.List;
 
+/**
+ * <p>ExpandableListView万能适配Adapter,减少赘于代码和加快开发流程</p>
+ *
+ * @param <G>父标题实体泛型
+ * @param <C>子列表数据泛型
+ * @author zengcx
+ */
 public abstract class BaseAdapter2<G, C> extends BaseExpandableListAdapter {
 
     protected List<List<C>> mChildData;
@@ -104,7 +111,8 @@ public abstract class BaseAdapter2<G, C> extends BaseExpandableListAdapter {
         if (groupLayoutIds == null || groupLayoutIds.length <= 0) {
             throw new ArrayIndexOutOfBoundsException("not groupLayoutId");
         }
-        int groupLayoutId = groupLayoutIds[checkGroupLayoutIndex(groupPosition, mGroupData.get(groupPosition), mChildData.get(groupPosition))];
+        int groupLayoutId = groupLayoutIds[checkGroupLayoutIndex(groupPosition,
+                mGroupData.get(groupPosition), mChildData.get(groupPosition))];
         holder = holder.get(mContext, groupPosition, convertView, parent, groupLayoutId);
         convertGroup(holder, groupPosition, mGroupData.get(groupPosition), mChildData.get(groupPosition));
         return holder.getConvertView(groupLayoutId);
@@ -115,7 +123,8 @@ public abstract class BaseAdapter2<G, C> extends BaseExpandableListAdapter {
         if (childLayoutIds == null || childLayoutIds.length <= 0) {
             throw new ArrayIndexOutOfBoundsException("not childLayoutId");
         }
-        int childLayoutId = childLayoutIds[checkChildLayoutIndex(childPosition, mChildData.get(groupPosition).get(childPosition))];
+        int childLayoutId = childLayoutIds[checkChildLayoutIndex(childPosition,
+                mChildData.get(groupPosition).get(childPosition))];
         holder = holder.get(mContext, childPosition, convertView, parent, childLayoutId);
         convertChild(holder, groupPosition, childPosition, mChildData.get(groupPosition).get(childPosition));
         return holder.getConvertView(childLayoutId);

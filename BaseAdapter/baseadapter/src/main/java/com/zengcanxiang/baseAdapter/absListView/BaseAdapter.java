@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 /**
- * <p>万能适配Adapter,减少赘于代码和加快开发流程</p>
+ * <p>ListView和GridView万能适配Adapter,减少赘于代码和加快开发流程</p>
  *
  * @author zengcx
  */

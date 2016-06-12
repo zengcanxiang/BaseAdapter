@@ -9,7 +9,11 @@ import java.util.List;
  */
 public interface DataHelper<T> {
 
-    boolean isEnabled(int position);
+    /**
+     * 判断是否有数据
+     * @return false 无数据
+     */
+    boolean isEnabled();
 
     /**
      * 添加单个数据到列表头部

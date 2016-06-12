@@ -11,17 +11,29 @@ import com.zengcanxiang.baseAdapter.absListView.HelperViewHolder;
 
 import java.util.List;
 
+/**
+ * <p>ExpandableListView万能适配Adapter,减少赘于代码和加快开发流程</p>
+ *
+ * @author zengcx
+ */
 public abstract class BaseAdapter<T> extends BaseExpandableListAdapter {
 
-    protected List<List<T>> mData;
+    protected List<List<T>> mList;
     protected Context mContext;
     protected LayoutInflater mLInflater;
     protected int[] groupLayoutIds;
     protected int[] childLayoutIds;
     private BaseViewHolder holder = new HelperViewHolder();
 
+
+    /**
+     * @param data           数据源
+     * @param context        上下文
+     * @param groupLayoutIds group布局Id数组
+     * @param childLayoutIds child布局Id数组
+     */
     public BaseAdapter(List<List<T>> data, Context context, int[] groupLayoutIds, int... childLayoutIds) {
-        this.mData = data;
+        this.mList = data;
         this.groupLayoutIds = groupLayoutIds;
         this.childLayoutIds = childLayoutIds;
         this.mContext = context;
@@ -33,7 +45,7 @@ public abstract class BaseAdapter<T> extends BaseExpandableListAdapter {
      */
     @Override
     public int getGroupCount() {
-        return mData.size();
+        return mList.size();
     }
 
     /**
@@ -41,7 +53,7 @@ public abstract class BaseAdapter<T> extends BaseExpandableListAdapter {
      */
     @Override
     public int getChildrenCount(int groupPosition) {
-        return mData.get(groupPosition).size();
+        return mList.get(groupPosition).size();
     }
 
     /**
@@ -49,7 +61,7 @@ public abstract class BaseAdapter<T> extends BaseExpandableListAdapter {
      */
     @Override
     public Object getGroup(int groupPosition) {
-        return mData.get(groupPosition);
+        return mList.get(groupPosition);
     }
 
     /**
@@ -57,7 +69,7 @@ public abstract class BaseAdapter<T> extends BaseExpandableListAdapter {
      */
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return mData.get(groupPosition).get(childPosition);
+        return mList.get(groupPosition).get(childPosition);
     }
 
     /**
@@ -102,9 +114,9 @@ public abstract class BaseAdapter<T> extends BaseExpandableListAdapter {
         if (groupLayoutIds == null || groupLayoutIds.length <= 0) {
             throw new ArrayIndexOutOfBoundsException("not groupLayoutId");
         }
-        int groupLayoutId = groupLayoutIds[checkGroupLayoutIndex(groupPosition, mData.get(groupPosition))];
+        int groupLayoutId = groupLayoutIds[checkGroupLayoutIndex(groupPosition, mList.get(groupPosition))];
         holder = holder.get(mContext, groupPosition, convertView, parent, groupLayoutId);
-        convertGroup(holder, groupPosition, mData.get(groupPosition));
+        convertGroup(holder, groupPosition, mList.get(groupPosition));
         return holder.getConvertView(groupLayoutId);
     }
 
@@ -113,9 +125,9 @@ public abstract class BaseAdapter<T> extends BaseExpandableListAdapter {
         if (childLayoutIds == null || childLayoutIds.length <= 0) {
             throw new ArrayIndexOutOfBoundsException("not childLayoutId");
         }
-        int childLayoutId = childLayoutIds[checkChildLayoutIndex(childPosition, mData.get(groupPosition).get(childPosition))];
+        int childLayoutId = childLayoutIds[checkChildLayoutIndex(childPosition, mList.get(groupPosition).get(childPosition))];
         holder = holder.get(mContext, childPosition, convertView, parent, childLayoutId);
-        convertChild(holder, groupPosition, childPosition, mData.get(groupPosition).get(childPosition));
+        convertChild(holder, groupPosition, childPosition, mList.get(groupPosition).get(childPosition));
         return holder.getConvertView(childLayoutId);
     }
 
@@ -141,8 +153,23 @@ public abstract class BaseAdapter<T> extends BaseExpandableListAdapter {
         return 0;
     }
 
+    /**
+     * group布局相关具体代码
+     *
+     * @param viewHolder    viewHolder
+     * @param groupPosition 当前group的index
+     * @param childs        当前group的所有child数据
+     */
     public abstract <BH extends BaseViewHolder> void convertGroup(BH viewHolder, int groupPosition, List<T> childs);
 
+    /**
+     * child布局相关具体代码
+     *
+     * @param viewHolder    viewHolder
+     * @param groupPosition 当前child所属的group的index
+     * @param childPosition 当前child的index
+     * @param t             当前child所对应的数据
+     */
     public abstract <BH extends BaseViewHolder> void convertChild(BH viewHolder, int groupPosition, int childPosition, T t);
 
 }
