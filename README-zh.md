@@ -11,7 +11,7 @@
 但是以个人习惯来说,感觉项目使用起来都是比较复杂的,就吸取精华,简化了一下使用.
 ## compile
 ```java
-compile 'com.zengcanxiang.baseAdapter:baseadapter:1.3.0'
+compile 'com.zengcanxiang.baseAdapter:baseadapter:1.4.3'
 ```   
 ###使用范例
 ####1.普通absListView

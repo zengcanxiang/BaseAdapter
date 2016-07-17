@@ -12,7 +12,7 @@ But in terms of personal habits, it is more complex to feel the project, to abso
 
 ## compile
 ```java
-compile 'com.zengcanxiang.baseAdapter:baseadapter:1.3.0'
+compile 'com.zengcanxiang.baseAdapter:baseadapter:1.4.3
 ```   
 ###Example
 ####1.ordinary absListView
