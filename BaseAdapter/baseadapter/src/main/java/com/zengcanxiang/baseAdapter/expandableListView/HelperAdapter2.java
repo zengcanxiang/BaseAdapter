@@ -296,7 +296,7 @@ public abstract class HelperAdapter2<G, C> extends BaseAdapter2<G, C> {
      *
      * @param group  父标题数据
      * @param childs 子列表数据
-     * @return 两者结果&&
+     * @return 两者结果的并
      */
     public boolean containsAGroup(G group, List<C> childs) {
         initListChild();

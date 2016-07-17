@@ -9,4 +9,7 @@
     <string name="title_activity_expandable_list_view_example_two">ExpandableListViewExampleTwo</string>
     <string name="title_activity_abs_list_view_example_two">AbsListViewExampleTwo</string>
     <string name="title_activity_recycler_view_example_two">RecyclerViewExampleTwo</string>
+
+    <string name="menu_listView">listView</string>
+    <string name="menu_gridView">gridView</string>
 </resources>

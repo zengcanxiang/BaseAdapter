@@ -40,6 +40,22 @@ public class AbsListViewExampleTwo extends AppCompatActivity {
         msgList.add(msg);
         msg=new Msg(1,"不用谢!");
         msgList.add(msg);
+        msg=new Msg(0,"。。。!");
+        msgList.add(msg);
+        msg=new Msg(1,"。。。!");
+        msgList.add(msg);
+        msg=new Msg(0,"。。。!");
+        msgList.add(msg);
+        msg=new Msg(1,"。。。!");
+        msgList.add(msg);
+        msg=new Msg(0,"。。。!");
+        msgList.add(msg);
+        msg=new Msg(1,"。。。!");
+        msgList.add(msg);
+        msg=new Msg(0,"。。。!");
+        msgList.add(msg);
+        msg=new Msg(1  ,"。。。!");
+        msgList.add(msg);
 
     }
 

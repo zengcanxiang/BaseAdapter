@@ -206,7 +206,7 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T> {
      *
      * @param startPosition 要替换的位置
      * @param groupIndex    数据位置
-     * @param child         替换的子列表数据
+     * @param aChild         替换的子列表数据
      */
     public void alterAChild(int startPosition, int groupIndex, T aChild) {
         throwException();

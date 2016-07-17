@@ -55,7 +55,6 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BH> {
         }
         return viewHolder;
     }
-
     /**
      * 解析布局资源
      *
