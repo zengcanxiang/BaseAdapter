@@ -8,11 +8,13 @@ This project is to encapsulate listview or GridView as well as Adapter. Recycler
 </ul>
 But in terms of personal habits, it is more complex to feel the project, to absorb the essence, to simplify the use of it.
 
+![示例](https://github.com/zengcanxiang/BaseAdapter/blob/master/Animation.gif)
+
 [中文文档][1]
 
 ## compile
 ```java
-compile 'com.zengcanxiang.baseAdapter:baseadapter:1.4.3
+compile 'com.zengcanxiang.baseAdapter:baseadapter:1.4.4
 ```   
 ###Example
 ####1.ordinary absListView
@@ -37,7 +39,7 @@ private class ExampleListAdapter extends HelperAdapter<String> {
     //internal configuration
     //if adapter less code, without many logic, more suitable for creating internal classes.
     //demo is the creation of the internal class
-    
+
     ExampleListAdapter adapter1=new ExampleListAdapter(mList,this,R.layout.example_item);
     ExampleGridAdapter adapter2=new ExampleGridAdapter(mList,this,R.layout.example_item);
 
@@ -81,14 +83,14 @@ private class ExampleListAdapter extends HelperAdapter<String> {
     }
 ```
 ```java
-    
+
     //The return value of the checklayou and the position in the HelperBindData is the order of the two ID
     //Because of the internal checklayou method will return the value corresponding to the ID array layout file in the constructor in accordance with the incoming
 
     MyRecyAdapter adapter = new MyRecyAdapter(mList, this, R.layout.example_different_item_right,             R.layout.example_different_item_left);
     recyclerView.setLayoutManager(mLayoutManager);
     recyclerView.setAdapter(adapter);
-    
+
 ```
 
 Adapter's absListView and adapter's recyclerView are almost the same.

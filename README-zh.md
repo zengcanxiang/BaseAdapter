@@ -9,9 +9,12 @@
   <li>.....</li>
 </ul>
 但是以个人习惯来说,感觉项目使用起来都是比较复杂的,就吸取精华,简化了一下使用.
+
+![示例](https://github.com/zengcanxiang/BaseAdapter/blob/master/Animation.gif)
+
 ## compile
 ```java
-compile 'com.zengcanxiang.baseAdapter:baseadapter:1.4.3'
+compile 'com.zengcanxiang.baseAdapter:baseadapter:1.4.4'
 ```   
 ###使用范例
 ####1.普通absListView
@@ -35,7 +38,7 @@ private class ExampleListAdapter extends HelperAdapter<String> {
     /因为这里是将layoutId当作参数传进去，一般的话，会在adapter内部就进行配置
     //如果adapter的代码少，无须处理很多逻辑，更加适合创建内部类。
     //demo就是创建的内部类
-    
+
     ExampleListAdapter adapter1=new ExampleListAdapter(mList,this,R.layout.example_item);
     ExampleGridAdapter adapter2=new ExampleGridAdapter(mList,this,R.layout.example_item);
 
@@ -81,13 +84,13 @@ private class ExampleListAdapter extends HelperAdapter<String> {
 ```
 
 ```java
-    
+
     //checklayou的返回值和HelperBindData中判断的position就是这两个id的顺序
     //因为内部会按照checklayou方法的返回值去取在构造方法中传入的id数组中对应的布局文件
     MyRecyAdapter adapter = new MyRecyAdapter(mList, this, R.layout.example_different_item_right, R.layout.example_different_item_left);
     recyclerView.setLayoutManager(mLayoutManager);
     recyclerView.setAdapter(adapter);
-    
+
 ```
 
 recyclerView的Adapter和absListView的adapter两者是差不多的
@@ -112,4 +115,3 @@ See [`LICENSE`](LICENSE) for full of the license text.
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
