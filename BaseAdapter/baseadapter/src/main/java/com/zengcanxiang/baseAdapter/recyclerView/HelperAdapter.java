@@ -89,6 +89,7 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
     public boolean addItemToLast(T data) {
         if (!isEnabled()) {
             addItemToHead(data);
+            return true;
         }
         boolean result = mList.add(data);
         notifyDataSetChanged();
