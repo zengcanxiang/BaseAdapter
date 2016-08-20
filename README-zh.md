@@ -14,7 +14,7 @@
 
 ## compile
 ```java
-compile 'com.zengcanxiang.baseAdapter:baseadapter:1.4.4'
+compile 'com.zengcanxiang.baseAdapter:baseadapter:1.4.5'
 ```   
 ###使用范例
 ####1.普通absListView
