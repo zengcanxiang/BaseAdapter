@@ -36,6 +36,9 @@
         <activity
             android:name=".ExpandableListViewExampleTwo"
             android:label="@string/title_activity_expandable_list_view_example_two" />
+        <activity
+            android:name=".ViewPagerExample"
+            android:label="@string/title_activity_viewpager" />
     </application>
 
 </manifest>

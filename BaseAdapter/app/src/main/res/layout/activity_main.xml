@@ -2,127 +2,168 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:background="@android:color/white"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/JumpAbsView"
-            android:layout_width="0dp"
-            android:layout_height="140dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@android:color/holo_blue_bright"
-            android:gravity="center"
-            android:onClick="Jump">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/JumpAbsView"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/holo_blue_bright"
+                    android:gravity="center"
+                    android:onClick="Jump">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="普通\nAbsListView" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/JumpAbsView2"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/holo_blue_bright"
+                    android:gravity="center"
+                    android:onClick="Jump">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="多子布局\nAbsListView" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="普通\nAbsListView" />
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:id="@+id/RecyclerView"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/holo_blue_bright"
+                    android:gravity="center"
+                    android:onClick="Jump">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="普通\nRecyclerView" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/RecyclerView2"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/holo_blue_bright"
+                    android:gravity="center"
+                    android:onClick="Jump">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="多子布局\nRecyclerView" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:id="@+id/expandableListView"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/holo_blue_bright"
+                    android:gravity="center"
+                    android:onClick="Jump">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="普通\nexpandableListView" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/expandableListView2"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/holo_blue_bright"
+                    android:gravity="center"
+                    android:onClick="Jump">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="多子布局\nexpandableListView" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:id="@+id/viewpager"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/holo_blue_bright"
+                    android:gravity="center"
+                    android:onClick="Jump">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="viewpager" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:onClick="Jump"/>
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/JumpAbsView2"
-            android:layout_width="0dp"
-            android:layout_height="140dp"
-            android:layout_weight="1"
-            android:background="@android:color/holo_blue_bright"
-            android:gravity="center"
-            android:onClick="Jump">
+    </ScrollView>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="多子布局\nAbsListView" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-
-        <LinearLayout
-            android:id="@+id/RecyclerView"
-            android:layout_width="0dp"
-            android:layout_height="140dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@android:color/holo_blue_bright"
-            android:gravity="center"
-            android:onClick="Jump">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="普通\nRecyclerView" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/RecyclerView2"
-            android:layout_width="0dp"
-            android:layout_height="140dp"
-            android:layout_weight="1"
-            android:background="@android:color/holo_blue_bright"
-            android:gravity="center"
-            android:onClick="Jump">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="多子布局\nRecyclerView" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-
-        <LinearLayout
-            android:id="@+id/expandableListView"
-            android:layout_width="0dp"
-            android:layout_height="140dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@android:color/holo_blue_bright"
-            android:gravity="center"
-            android:onClick="Jump">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="普通\nexpandableListView" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/expandableListView2"
-            android:layout_width="0dp"
-            android:layout_height="140dp"
-            android:layout_weight="1"
-            android:background="@android:color/holo_blue_bright"
-            android:gravity="center"
-            android:onClick="Jump">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="多子布局\nexpandableListView" />
-        </LinearLayout>
-    </LinearLayout>
 </LinearLayout>

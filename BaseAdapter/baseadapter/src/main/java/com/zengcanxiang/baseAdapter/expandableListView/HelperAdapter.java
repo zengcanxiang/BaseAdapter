@@ -50,6 +50,8 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T> {
 
     /**
      * 判断有无数据
+     *
+     * @return 判断结果
      */
     public boolean isEnabled() {
         if (mList == null) {
@@ -67,6 +69,7 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T> {
      *
      * @param startPosition 要添加的位置
      * @param datas         数据集
+     * @return 操作结果
      */
     public boolean addAll(int startPosition, List<List<T>> datas) {
         initList();
@@ -99,6 +102,7 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T> {
      *
      * @param startPosition 数据位置
      * @param addData       数据集
+     * @return 操作结果
      */
     public boolean addAGroup(int startPosition, List<T> addData) {
         List<List<T>> temp = new ArrayList<>();
@@ -121,6 +125,7 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T> {
      * remove指定数据
      *
      * @param removeData 指定数据
+     * @return 操作结果
      */
     public boolean removeAGroup(List<T> removeData) {
         initList();
@@ -193,6 +198,7 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T> {
      *
      * @param groupIndex 数据位置
      * @param removeData remove数据
+     * @return 操作结果
      */
     public boolean removeAChild(int groupIndex, T removeData) {
         throwException();
@@ -206,7 +212,7 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T> {
      *
      * @param startPosition 要替换的位置
      * @param groupIndex    数据位置
-     * @param aChild         替换的子列表数据
+     * @param aChild        替换的子列表数据
      */
     public void alterAChild(int startPosition, int groupIndex, T aChild) {
         throwException();
@@ -218,6 +224,7 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T> {
      * 比较查看该组数据是否存在数据列表中
      *
      * @param data 数据集
+     * @return 操作结果
      */
     public boolean containsAGroup(List<T> data) {
         initList();
@@ -229,6 +236,7 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T> {
      *
      * @param groupIndex 数据位置
      * @param data       比较数据
+     * @return 操作结果
      */
     public boolean containsAChild(int groupIndex, T data) {
         throwException();

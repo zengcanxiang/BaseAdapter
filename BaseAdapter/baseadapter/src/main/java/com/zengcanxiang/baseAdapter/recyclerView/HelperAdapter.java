@@ -26,10 +26,10 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
     }
 
     @Override
-    public BH onCreateViewHolder(ViewGroup parent, int viewType) {
+    public final BH onCreateViewHolder(ViewGroup parent, int viewType) {
         HelperViewHolder holder;
         if (viewType < 0 || viewType > mLayoutId.length) {
-            throw new ArrayIndexOutOfBoundsException("checkLayoutIndex > LayoutId.length");
+            throw new ArrayIndexOutOfBoundsException("checkLayoutIndex > LayoutId.length ：" + viewType + ">" + mLayoutId.length);
         }
         if (mLayoutId.length == 0) {
             throw new IllegalArgumentException("not layoutId");
@@ -59,10 +59,11 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
     /**
      * 绑定相关事件,例如点击长按等,默认空实现
      *
-     * @param viewHolder
+     * @param viewHolder viewHolder
      * @param position   数据的位置
      * @param item       数据项
      */
+    @SuppressWarnings("unchecked")
     protected void setListener(HelperViewHolder viewHolder, int position, T item) {
 
     }

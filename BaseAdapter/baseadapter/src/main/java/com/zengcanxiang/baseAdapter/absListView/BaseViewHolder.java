@@ -16,11 +16,12 @@ public class BaseViewHolder {
     /**
      * <p>保存小控件的集合</p>
      */
-    private SparseArray<View> mViews = new SparseArray<View>();
+    private SparseArray<View> mViews = new SparseArray<>();
     /**
      * <p>保存布局view的集合</p>
      */
-    private SparseArray<View> mConvertViews = new SparseArray<View>();
+    private SparseArray<View> mConvertViews = new SparseArray<>();
+
     private int mPosition;
     /**
      * <p>单个布局view</p>
@@ -36,7 +37,7 @@ public class BaseViewHolder {
     protected Context mContext;
 
     protected BaseViewHolder(Context context, int position, ViewGroup parent,
-                          int layoutId) {
+                             int layoutId) {
         mConvertView = mConvertViews.get(layoutId);
         mPosition = position;
         mContext = context;
@@ -61,7 +62,8 @@ public class BaseViewHolder {
      * @param layoutId 对应的布局Id
      * @return BaseViewHolder实例
      */
-    public <BH extends BaseViewHolder> BH get(Context context, int position,
+    @SuppressWarnings("unchecked")
+    public  <BH extends BaseViewHolder> BH get(Context context, int position,
                                               View convertView, ViewGroup parent, int layoutId) {
         if (convertView == null) {
             return (BH) new BaseViewHolder(context, position, parent, layoutId);
@@ -78,12 +80,11 @@ public class BaseViewHolder {
     /**
      * 获取viewId对应的控件
      *
-     * @param viewId
-     * @param <R>
-     * @return
+     * @param viewId viewId
+     * @return 解析或者获取的view
      */
     @SuppressWarnings("unchecked")
-    public <R extends View> R getView(int viewId) {
+    public final <R extends View> R getView(int viewId) {
         View view = mViews.get(viewId);
         if (view == null) {
             view = mConvertView.findViewById(viewId);
@@ -96,27 +97,26 @@ public class BaseViewHolder {
     /**
      * 当没有指定到时候，返回队列中的第一个
      *
-     * @return
+     * @return convertView
      */
-    public View getConvertView() {
+    public final View getConvertView() {
         return mConvertViews.valueAt(0);
     }
 
     /**
      * 返回队列中指定layoutId对应的view
      *
-     * @param layoutId
-     * @return
+     * @param layoutId 手动指定的layoutId
      */
-    public View getConvertView(int layoutId) {
+    public final View getConvertView(int layoutId) {
         return mConvertViews.get(layoutId);
     }
 
-    public void setPosition(int mPosition) {
+    public final void setPosition(int mPosition) {
         this.mPosition = mPosition;
     }
 
-    public int getLayoutId() {
+    public final int getLayoutId() {
         return mLayoutId;
     }
 }

@@ -40,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(MainActivity.this, ExpandableListViewExampleTwo.class);
                 startActivity(intent);
                 break;
+            case R.id.viewpager:
+                intent = new Intent(MainActivity.this, ViewPagerExample.class);
+                startActivity(intent);
+                break;
         }
     }
 }

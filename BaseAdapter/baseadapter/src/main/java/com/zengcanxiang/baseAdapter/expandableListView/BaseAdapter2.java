@@ -1,6 +1,9 @@
 package com.zengcanxiang.baseAdapter.expandableListView;
 
 import android.content.Context;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +26,12 @@ public abstract class BaseAdapter2<G, C> extends BaseExpandableListAdapter {
     protected List<List<C>> mChildData;
     protected List<G> mGroupData;
     protected Context mContext;
-    protected LayoutInflater mLInflater;
-    protected int[] groupLayoutIds;
-    protected int[] childLayoutIds;
+    private LayoutInflater mLInflater;
+    private int[] groupLayoutIds;
+    private int[] childLayoutIds;
     private BaseViewHolder holder = new HelperViewHolder();
 
-    public BaseAdapter2(List<G> groupData, List<List<C>> childData, Context context, int[] groupLayoutIds, int... childLayoutIds) {
+    public BaseAdapter2(@Nullable List<G> groupData, List<List<C>> childData, Context context, @NonNull @LayoutRes int[] groupLayoutIds, @NonNull@LayoutRes int... childLayoutIds) {
         this.mChildData = childData;
         this.mGroupData = groupData;
         this.groupLayoutIds = groupLayoutIds;
@@ -41,7 +44,7 @@ public abstract class BaseAdapter2<G, C> extends BaseExpandableListAdapter {
      * 获取分组的个数
      */
     @Override
-    public int getGroupCount() {
+    public final int getGroupCount() {
         return mGroupData.size();
     }
 
@@ -49,7 +52,7 @@ public abstract class BaseAdapter2<G, C> extends BaseExpandableListAdapter {
      * 获取指定分组中的子选项的个数
      */
     @Override
-    public int getChildrenCount(int groupPosition) {
+    public final int getChildrenCount(int groupPosition) {
         return mChildData.get(groupPosition).size();
     }
 
@@ -57,7 +60,7 @@ public abstract class BaseAdapter2<G, C> extends BaseExpandableListAdapter {
      * 获取指定的分组数据
      */
     @Override
-    public Object getGroup(int groupPosition) {
+    public final Object getGroup(int groupPosition) {
         return mGroupData.get(groupPosition);
     }
 
@@ -65,7 +68,7 @@ public abstract class BaseAdapter2<G, C> extends BaseExpandableListAdapter {
      * 获取指定分组中的指定子选项数据
      */
     @Override
-    public Object getChild(int groupPosition, int childPosition) {
+    public final Object getChild(int groupPosition, int childPosition) {
         return mChildData.get(groupPosition).get(childPosition);
     }
 
@@ -74,7 +77,7 @@ public abstract class BaseAdapter2<G, C> extends BaseExpandableListAdapter {
      * <p>默认为position</p>
      */
     @Override
-    public long getGroupId(int groupPosition) {
+    public final long getGroupId(int groupPosition) {
         return groupPosition;
     }
 
@@ -83,14 +86,12 @@ public abstract class BaseAdapter2<G, C> extends BaseExpandableListAdapter {
      * <p>默认为position</p>
      */
     @Override
-    public long getChildId(int groupPosition, int childPosition) {
+    public final long getChildId(int groupPosition, int childPosition) {
         return childPosition;
     }
 
     /**
      * 分组和子选项是否持有稳定的ID, 就是说底层数据的改变会不会影响到它们
-     *
-     * @return
      */
     @Override
     public boolean hasStableIds() {
@@ -108,8 +109,8 @@ public abstract class BaseAdapter2<G, C> extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        if (groupLayoutIds == null || groupLayoutIds.length <= 0) {
-            throw new ArrayIndexOutOfBoundsException("not groupLayoutId");
+        if (groupLayoutIds == null || groupLayoutIds.length == 0) {
+            throw new IllegalArgumentException("not groupLayoutId");
         }
         int groupLayoutId = groupLayoutIds[checkGroupLayoutIndex(groupPosition,
                 mGroupData.get(groupPosition), mChildData.get(groupPosition))];
@@ -120,8 +121,8 @@ public abstract class BaseAdapter2<G, C> extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        if (childLayoutIds == null || childLayoutIds.length <= 0) {
-            throw new ArrayIndexOutOfBoundsException("not childLayoutId");
+        if (childLayoutIds == null || childLayoutIds.length == 0) {
+            throw new IllegalArgumentException("not childLayoutId");
         }
         int childLayoutId = childLayoutIds[checkChildLayoutIndex(childPosition,
                 mChildData.get(groupPosition).get(childPosition))];

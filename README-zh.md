@@ -14,7 +14,7 @@
 
 ## compile
 ```java
-compile 'com.zengcanxiang.baseAdapter:baseadapter:1.4.5'
+compile 'com.zengcanxiang.baseAdapter:baseadapter:1.4.6'
 ```   
 ###使用范例
 ####1.普通absListView
@@ -254,15 +254,61 @@ import com.zengcanxiang.baseAdapter.expandableListView.HelperAdapter2;
 
 ```
 
+#### 5.ViewPager:使用view和使用fragment
+
+```java
+
+import com.zengcanxiang.baseAdapter.viewpager.BaseAdapter;
+import com.zengcanxiang.baseAdapter.viewpager.BaseFragmentAdapter;
+
+public class ViewAdapter extends BaseAdapter {
+
+      public ViewAdapter(Context context) {
+          super(context, R.layout.example_viewpager_one,R.layout.example_viewpager_two,R.layout.example_viewpager_three);
+      }
+
+      @Override
+      public void convert(View view, int position) {
+
+      }
+  }
+
+  public class FragmentAdapter extends BaseFragmentAdapter {
+
+      public FragmentAdapter(FragmentManager fm, @NonNull List<Fragment> fragments) {
+          super(fm, fragments);
+      }
+  }
+
+```
+```java
+
+  viewAdapter = new ViewAdapter(this);
+
+  List<Fragment> fragments=new ArrayList<>();
+  ExampleFragment oneFragment=new ExampleFragment();
+  ExampleFragment twoFragment=new ExampleFragment();
+  ExampleFragment threeFragment=new ExampleFragment();
+  oneFragment.setLayoutId(R.layout.example_viewpager_one);
+  twoFragment.setLayoutId(R.layout.example_viewpager_two);
+  threeFragment.setLayoutId(R.layout.example_viewpager_three);
+  fragments.add(oneFragment);
+  fragments.add(twoFragment);
+  fragments.add(threeFragment);
+  ragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), fragments);
+
+```
+
+
 <a href="https://github.com/zengcanxiang/BaseAdapter/tree/master/BaseAdapter/app">example项目</a>
 
 ### License
 
 This library is licensed under the [Apache Software License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
-See [`LICENSE`](LICENSE) for full of the license text.
+See [`License`](License) for full of the license text.
 
-    Copyright (C) 2015 [Hanks](https://github.com/ZengcxAperson)
+    Copyright (C) 2016 [Hanks](https://github.com/zengcanxiang)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

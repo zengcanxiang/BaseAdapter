@@ -47,6 +47,7 @@ public abstract class HelperAdapter2<G, C> extends BaseAdapter2<G, C> {
 
     /**
      * 判断父标题有无数据
+     * @return 判断结果
      */
     public boolean isGroupEnabled() {
         if (mGroupData == null) {
@@ -61,6 +62,7 @@ public abstract class HelperAdapter2<G, C> extends BaseAdapter2<G, C> {
 
     /**
      * 判断所有子列表是否有数据
+     * @return 操作结果
      */
     public boolean isChildEnabled() {
         if (mChildData == null) {
@@ -77,6 +79,7 @@ public abstract class HelperAdapter2<G, C> extends BaseAdapter2<G, C> {
      * 判断某个父标题对应的子列表是否有数据
      *
      * @param groupIndex 数据位置
+     * @return 操作结果
      */
     public boolean isChildEnabledToGroupIndex(int groupIndex) {
         if (isChildEnabled()) {
@@ -99,6 +102,7 @@ public abstract class HelperAdapter2<G, C> extends BaseAdapter2<G, C> {
      * @param startPosition 要添加的位置
      * @param groups        添加的父标题数据
      * @param childs        添加的子列表数据
+     * @return 操作结果
      */
     public boolean addAllGroup(int startPosition, List<G> groups, List<List<C>> childs) {
         initListGroup();
@@ -120,6 +124,7 @@ public abstract class HelperAdapter2<G, C> extends BaseAdapter2<G, C> {
      * @param startPosition 要添加的位置
      * @param groupIndex    数据位置
      * @param childs        添加的子列表数据
+     * @return 操作结果
      */
     public boolean addAllChild(int startPosition, int groupIndex, List<C> childs) {
         initListChild();
@@ -134,6 +139,7 @@ public abstract class HelperAdapter2<G, C> extends BaseAdapter2<G, C> {
      *
      * @param group  父标题数据
      * @param childs 对应的子列表数据
+     * @return 操作结果
      */
     public boolean addAGroupToHead(G group, List<C> childs) {
         return addAGroup(0, group, childs);
@@ -144,6 +150,7 @@ public abstract class HelperAdapter2<G, C> extends BaseAdapter2<G, C> {
      *
      * @param groupIndex 数据位置
      * @param child      子列表数据
+     * @return 操作结果
      */
     public boolean addAChildToHead(int groupIndex, C child) {
         return addChilds(0, groupIndex, child);
@@ -154,6 +161,7 @@ public abstract class HelperAdapter2<G, C> extends BaseAdapter2<G, C> {
      *
      * @param group  父标题数据
      * @param childs 对应的子列表数据
+     * @return 操作结果
      */
     public boolean addAGroupToLast(G group, List<C> childs) {
         return addAGroup(mGroupData.size() - 1, group, childs);
@@ -164,6 +172,7 @@ public abstract class HelperAdapter2<G, C> extends BaseAdapter2<G, C> {
      *
      * @param groupIndex 数据位置
      * @param child      子列表数据
+     * @return 操作结果
      */
     public boolean addChildToLast(int groupIndex, C child) {
         return addChilds(mChildData.get(groupIndex).size() - 1, groupIndex, child);
@@ -175,6 +184,7 @@ public abstract class HelperAdapter2<G, C> extends BaseAdapter2<G, C> {
      * @param startPosition 要添加的位置
      * @param group         父标题数据
      * @param childs        对应的子列表数据
+     * @return 操作结果
      */
     public boolean addAGroup(int startPosition, G group, List<C> childs) {
         List<List<C>> tempChild = new ArrayList<>();
@@ -190,6 +200,7 @@ public abstract class HelperAdapter2<G, C> extends BaseAdapter2<G, C> {
      * @param startPosition 要添加的位置
      * @param groupIndex    数据位置
      * @param child         子列表数据
+     * @return 操作结果
      */
     public boolean addChilds(int startPosition, int groupIndex, C child) {
         List<C> tempChild = new ArrayList<>();
@@ -256,6 +267,7 @@ public abstract class HelperAdapter2<G, C> extends BaseAdapter2<G, C> {
      *
      * @param groupIndex 数据位置
      * @param removeData remove数据
+     * @return 操作结果
      */
     public boolean removeAChild(int groupIndex, C removeData) {
         throwException();
@@ -308,6 +320,7 @@ public abstract class HelperAdapter2<G, C> extends BaseAdapter2<G, C> {
      * 比较查看是父标题数据否存在数据列表中
      *
      * @param group 父标题数据
+     * @return 操作结果
      */
     public boolean containsAGroup(G group) {
         initListGroup();
@@ -319,6 +332,7 @@ public abstract class HelperAdapter2<G, C> extends BaseAdapter2<G, C> {
      *
      * @param groupIndex 数据位置
      * @param child      比较数据
+     * @return 操作结果
      */
     public boolean containsAChilds(int groupIndex, C child) {
         throwException();

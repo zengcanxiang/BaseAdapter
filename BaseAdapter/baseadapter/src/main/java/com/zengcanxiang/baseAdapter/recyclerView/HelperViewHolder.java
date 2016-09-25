@@ -6,6 +6,10 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.util.Linkify;
 import android.view.View;
@@ -30,7 +34,6 @@ public class HelperViewHolder extends BaseViewHolder implements ViewHelper.Recyc
         super(context, layoutId, itemView);
     }
 
-
     @Override
     public HelperViewHolder setText(int viewId, String value) {
         TextView view = getView(viewId);
@@ -46,30 +49,30 @@ public class HelperViewHolder extends BaseViewHolder implements ViewHelper.Recyc
     }
 
     @Override
-    public HelperViewHolder setBackgroundColor(int viewId, int color) {
+    public HelperViewHolder setBackgroundColor(int viewId,@ColorInt int color) {
         View view = getView(viewId);
         view.setBackgroundColor(color);
         return this;
     }
 
     @Override
-    public HelperViewHolder setBackgroundColorRes(int viewId, int colorRes) {
+    public HelperViewHolder setBackgroundColorRes(int viewId,@ColorRes int colorRes) {
         View view = getView(viewId);
         view.setBackgroundResource(colorRes);
         return this;
     }
 
     @Override
-    public HelperViewHolder setTextColor(int viewId, int textColor) {
+    public HelperViewHolder setTextColor(int viewId,@ColorInt int textColor) {
         TextView view = getView(viewId);
         view.setTextColor(textColor);
         return this;
     }
 
     @Override
-    public HelperViewHolder setTextColorRes(int viewId, int textColorRes) {
+    public HelperViewHolder setTextColorRes(int viewId,@ColorRes int textColorRes) {
         TextView view = getView(viewId);
-        view.setTextColor(mContext.getResources().getColor(textColorRes));
+        view.setTextColor(ContextCompat.getColor(mContext,textColorRes));
         return this;
     }
 
@@ -81,14 +84,9 @@ public class HelperViewHolder extends BaseViewHolder implements ViewHelper.Recyc
     }
 
     @Override
-    public HelperViewHolder setImageDrawableRes(int viewId, int drawableRes) {
-        Drawable drawable = mContext.getResources().getDrawable(drawableRes);
+    public HelperViewHolder setImageDrawableRes(int viewId,@DrawableRes int drawableRes) {
+        Drawable drawable = ContextCompat.getDrawable(mContext,drawableRes);
         return setImageDrawable(viewId, drawable);
-    }
-
-    @Override
-    public HelperViewHolder setImageUrl(int viewId, String imgUrl) {
-        return null;
     }
 
     @Override
@@ -127,6 +125,7 @@ public class HelperViewHolder extends BaseViewHolder implements ViewHelper.Recyc
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public HelperViewHolder setAdapter(int viewId, Adapter adapter) {
         AdapterView view = getView(viewId);
         view.setAdapter(adapter);

@@ -25,7 +25,7 @@ public class BaseViewHolder extends BH {
     }
 
     @SuppressWarnings("unchecked")
-    public <R extends View> R getView(int viewId) {
+    public final <R extends View> R getView(int viewId) {
         View view = mViews.get(viewId);
         if (view == null) {
             view = mConvertView.findViewById(viewId);

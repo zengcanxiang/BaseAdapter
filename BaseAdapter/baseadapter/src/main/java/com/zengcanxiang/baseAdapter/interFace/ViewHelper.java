@@ -87,14 +87,6 @@ public interface ViewHelper<VH> {
          */
         VH setImageDrawableRes(int viewId, int drawableRes);
 
-        /**
-         * 设置img图片路径
-         *
-         * @param viewId viewId
-         * @param imgUrl 图片路径
-         * @return viewHolder
-         */
-        VH setImageUrl(int viewId, String imgUrl);
 
         /**
          * 设置img图片Bitmap
@@ -172,7 +164,7 @@ public interface ViewHelper<VH> {
         /**
          * 设置textView正则
          *
-         * @param viewId
+         * @param viewId viewId
          * @return viewHolder
          */
         VH linkify(int viewId);
@@ -316,15 +308,6 @@ public interface ViewHelper<VH> {
          */
         VH setImageDrawableRes(int viewId, int drawableRes);
 
-
-        /**
-         * 设置img图片路径
-         *
-         * @param viewId viewId
-         * @param imgUrl 图片路径
-         * @return viewHolder
-         */
-        VH setImageUrl(int viewId, String imgUrl);
 
         /**
          * 设置img图片Bitmap

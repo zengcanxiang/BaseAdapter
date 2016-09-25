@@ -1,6 +1,8 @@
 package com.zengcanxiang.baseAdapter.absListView;
 
 import android.content.Context;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,28 +27,15 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
      * @param context   上下文
      * @param layoutIds 布局Id
      */
-    public BaseAdapter(List<T> data, Context context, int... layoutIds) {
+    public BaseAdapter(@NonNull List<T> data, Context context,@NonNull@LayoutRes int... layoutIds) {
         this.mList = data;
         this.layoutIds = layoutIds;
         this.mContext = context;
         this.mLInflater = LayoutInflater.from(mContext);
     }
 
-    /**
-     * <p>在初始化的时候不能确定layoutId,才可以不提供,但是必须重写checkLayoutId方法</p>
-     *
-     * @param data    数据源
-     * @param context 上下文
-     * @deprecated
-     */
-    public BaseAdapter(List<T> data, Context context) {
-        this.mList = data;
-        this.mContext = context;
-        this.mLInflater = LayoutInflater.from(mContext);
-    }
-
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public final View getView(int position, View convertView, ViewGroup parent) {
         int layoutId = getViewCheckLayoutId(position);
         holder = holder.get(mContext, position, convertView, parent, layoutId);
         convert(holder, position, mList.get(position));
@@ -55,12 +44,9 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 
     private int getViewCheckLayoutId(int position) {
         int layoutId;
-        if (layoutIds == null) {
-            layoutId = checkLayoutId(position, mList.get(position));
+        if (layoutIds == null || layoutIds.length == 0) {
+            throw new IllegalArgumentException("not layoutId");
         } else {
-            if (layoutIds==null||layoutIds.length == 0) {
-                throw new ArrayIndexOutOfBoundsException("not layoutId");
-            }
             layoutId = layoutIds[checkLayoutIndex(position, mList.get(position))];
         }
         return layoutId;
@@ -86,29 +72,18 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
         return 0;
     }
 
-    /**
-     * <p>根据业务逻辑确定layoutId,只会在构造方法没有传入layoutId时生效</p>
-     *
-     * @param position 所在位置
-     * @param item     对应数据
-     * @return 默认为0, 返回Id
-     */
-    public int checkLayoutId(int position, T item) {
-        return 0;
-    }
-
     @Override
-    public int getCount() {
+    public final int getCount() {
         return mList == null ? 0 : mList.size();
     }
 
     @Override
-    public Object getItem(int position) {
+    public final Object getItem(int position) {
         return mList.get(position);
     }
 
     @Override
-    public long getItemId(int position) {
+    public final long getItemId(int position) {
         return position;
     }
 

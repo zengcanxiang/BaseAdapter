@@ -11,14 +11,15 @@ public interface DataHelper<T> {
 
     /**
      * 判断是否有数据
-     * @return false 无数据
+     *
+     * @return {@code false} 无数据
      */
     boolean isEnabled();
 
     /**
      * 添加单个数据到列表头部
      *
-     * @param data
+     * @param data 数据
      */
     void addItemToHead(T data);
 
@@ -26,20 +27,23 @@ public interface DataHelper<T> {
      * 添加单个数据到列表尾部
      *
      * @param data 数据
+     * @return 操作结果
      */
     boolean addItemToLast(T data);
 
     /**
      * 添加数据集到列表头部
      *
-     * @param datas
+     * @param datas 数据集
+     * @return 操作结果
      */
     boolean addItemsToHead(List<T> datas);
 
     /**
      * 添加数据集到列表尾部
      *
-     * @param datas
+     * @param datas 数据集
+     * @return 操作结果
      */
     boolean addItemsToLast(List<T> datas);
 
@@ -47,7 +51,8 @@ public interface DataHelper<T> {
      * 添加数据集合到指定位置
      *
      * @param startPosition 数据添加的位置
-     * @param datas         数据集合
+     * @param datas         数据集
+     * @return 操作结果
      */
     boolean addAll(int startPosition, List<T> datas);
 
@@ -86,21 +91,22 @@ public interface DataHelper<T> {
     /**
      * 删除对应的数据
      *
-     * @param data
+     * @param data 数据
+     * @return 操作结果
      */
     boolean remove(T data);
 
     /**
      * 删除对应位置的数据
      *
-     * @param index
+     * @param index 删除的位置
      */
     void removeToIndex(int index);
 
     /**
      * 替换所有数据
      *
-     * @param datas
+     * @param datas 数据集
      */
     void replaceAll(List<T> datas);
 
@@ -110,10 +116,11 @@ public interface DataHelper<T> {
     void clear();
 
     /**
-     * 判断数据集合中是否包含这个对象
+     * 判断数据集合中是否包含这个对象<br>
+     * {@link List#contains(Object)}
      *
      * @param data 判断对象
-     * @return true|false
+     * @return {@code true}包含该对象|{@code false}不包含该对象
      */
     boolean contains(T data);
 
