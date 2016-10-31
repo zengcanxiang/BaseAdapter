@@ -150,7 +150,7 @@ public interface ViewHelper<VH> {
          * @param adapter adapter
          * @return viewHolder
          */
-        VH setAdapter(int viewId, android.support.v7.widget.RecyclerView.Adapter adapter);
+        VH setAdapter(int viewId, android.support.v7.widget.RecyclerView.Adapter adapter, android.support.v7.widget.RecyclerView.LayoutManager manager);
 
         /**
          * 设置控件透明效果
@@ -371,7 +371,7 @@ public interface ViewHelper<VH> {
          * @param adapter adapter
          * @return viewHolder
          */
-        VH setAdapter(int viewId, android.support.v7.widget.RecyclerView.Adapter adapter);
+        VH setAdapter(int viewId, android.support.v7.widget.RecyclerView.Adapter adapter, android.support.v7.widget.RecyclerView.LayoutManager manager);
 
         /**
          * 设置控件透明效果

@@ -69,7 +69,7 @@ public class AbsListViewExample extends AppCompatActivity {
     }
 
 
-    private class ExampleListAdapter extends HelperAdapter<String> {
+    public class ExampleListAdapter extends HelperAdapter<String> {
 
         public ExampleListAdapter(List<String> mList, Context context, int... layoutIds) {
             super(mList, context, layoutIds);
@@ -86,7 +86,7 @@ public class AbsListViewExample extends AppCompatActivity {
     }
 
 
-    private class ExampleGridAdapter extends HelperAdapter<String> {
+    public class ExampleGridAdapter extends HelperAdapter<String> {
 
         public ExampleGridAdapter(List<String> mList, Context context, int... layoutIds) {
             super(mList, context, layoutIds);

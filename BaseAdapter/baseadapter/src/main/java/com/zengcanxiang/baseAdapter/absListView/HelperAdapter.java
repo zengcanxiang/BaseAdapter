@@ -18,11 +18,6 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T> implements DataHel
         super(mList, context, layoutIds);
     }
 
-    @Deprecated
-    public HelperAdapter(List<T> mList, Context context) {
-        super(mList, context);
-    }
-
     @Override
     public <BH extends BaseViewHolder> void convert(BH viewHolder, int position, T t) {
         HelperViewHolder holder = (HelperViewHolder) viewHolder;

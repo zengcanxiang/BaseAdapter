@@ -39,6 +39,7 @@
         <activity
             android:name=".ViewPagerExample"
             android:label="@string/title_activity_viewpager" />
+        <activity android:name=".RecyclerViewOtherView" />
     </application>
 
 </manifest>

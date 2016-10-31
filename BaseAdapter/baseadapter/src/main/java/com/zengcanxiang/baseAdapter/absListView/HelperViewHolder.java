@@ -43,7 +43,7 @@ public class HelperViewHolder extends BaseViewHolder implements ViewHelper.AbsLi
     @Override
     @SuppressWarnings("unchecked")
     public final HelperViewHolder get(Context context, int position,
-                                View convertView, ViewGroup parent, int layoutId) {
+                                      View convertView, ViewGroup parent, int layoutId) {
         HelperViewHolder holder;
         if (convertView == null) {
             holder = new HelperViewHolder(context, position, parent, layoutId);
@@ -73,30 +73,30 @@ public class HelperViewHolder extends BaseViewHolder implements ViewHelper.AbsLi
     }
 
     @Override
-    public HelperViewHolder setBackgroundColor(int viewId,@ColorInt int color) {
+    public HelperViewHolder setBackgroundColor(int viewId, @ColorInt int color) {
         View view = getView(viewId);
         view.setBackgroundColor(color);
         return this;
     }
 
     @Override
-    public HelperViewHolder setBackgroundColorRes(int viewId,@ColorRes int colorRes) {
+    public HelperViewHolder setBackgroundColorRes(int viewId, @ColorRes int colorRes) {
         View view = getView(viewId);
         view.setBackgroundResource(colorRes);
         return this;
     }
 
     @Override
-    public HelperViewHolder setTextColor(int viewId,@ColorInt int textColor) {
+    public HelperViewHolder setTextColor(int viewId, @ColorInt int textColor) {
         TextView view = getView(viewId);
         view.setTextColor(textColor);
         return this;
     }
 
     @Override
-    public HelperViewHolder setTextColorRes(int viewId,@ColorRes int textColorRes) {
+    public HelperViewHolder setTextColorRes(int viewId, @ColorRes int textColorRes) {
         TextView view = getView(viewId);
-        view.setTextColor(ContextCompat.getColor(mContext,textColorRes));
+        view.setTextColor(ContextCompat.getColor(mContext, textColorRes));
         return this;
     }
 
@@ -108,9 +108,9 @@ public class HelperViewHolder extends BaseViewHolder implements ViewHelper.AbsLi
     }
 
     @Override
-    public HelperViewHolder setImageDrawableRes(int viewId,@DrawableRes int drawableRes) {
-        Drawable drawable = ContextCompat.getDrawable(mContext,drawableRes);
-        return setImageDrawable(viewId,drawable);
+    public HelperViewHolder setImageDrawableRes(int viewId, @DrawableRes int drawableRes) {
+        Drawable drawable = ContextCompat.getDrawable(mContext, drawableRes);
+        return setImageDrawable(viewId, drawable);
     }
 
 
@@ -158,8 +158,9 @@ public class HelperViewHolder extends BaseViewHolder implements ViewHelper.AbsLi
     }
 
     @Override
-    public HelperViewHolder setAdapter(int viewId, RecyclerView.Adapter adapter) {
+    public HelperViewHolder setAdapter(int viewId, RecyclerView.Adapter adapter, RecyclerView.LayoutManager manager) {
         RecyclerView view = getView(viewId);
+        view.setLayoutManager(manager);
         view.setAdapter(adapter);
         return this;
     }

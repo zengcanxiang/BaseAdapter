@@ -27,7 +27,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
      * @param context   上下文
      * @param layoutIds 布局Id
      */
-    public BaseAdapter(@NonNull List<T> data, Context context,@NonNull@LayoutRes int... layoutIds) {
+    public BaseAdapter(@NonNull List<T> data, Context context, @NonNull @LayoutRes int... layoutIds) {
         this.mList = data;
         this.layoutIds = layoutIds;
         this.mContext = context;
@@ -47,7 +47,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
         if (layoutIds == null || layoutIds.length == 0) {
             throw new IllegalArgumentException("not layoutId");
         } else {
-            layoutId = layoutIds[checkLayoutIndex(position, mList.get(position))];
+            layoutId = getLayoutId(position);
         }
         return layoutId;
     }
@@ -72,8 +72,17 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
         return 0;
     }
 
+    /**
+     * 获取position对应的layoutId
+     * @param position 所在位置
+     * @return layoutId
+     */
+    public int getLayoutId(int position) {
+        return layoutIds[checkLayoutIndex(position, mList.get(position))];
+    }
+
     @Override
-    public final int getCount() {
+    public  int getCount() {
         return mList == null ? 0 : mList.size();
     }
 

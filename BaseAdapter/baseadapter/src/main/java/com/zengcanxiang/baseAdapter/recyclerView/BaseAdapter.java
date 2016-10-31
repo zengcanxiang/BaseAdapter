@@ -36,7 +36,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BH> {
     }
 
     @Override
-    public final int getItemViewType(int position) {
+    public  int getItemViewType(int position) {
         return checkLayoutIndex(mList.get(position), position);
     }
 
@@ -75,13 +75,29 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BH> {
 
     @Override
     public final void onBindViewHolder(BH holder, int position) {
-        T item = mList.get(position);
-        // 绑定数据
-        onBindData(holder, position, item);
+        onBindViewHolder(holder, position, null);
+    }
+
+
+    @Override
+    public final void onBindViewHolder(BH holder, int position, List<Object> payloads) {
+        if (payloads == null || payloads.isEmpty()) {
+            T item = mList.get(position);
+            // 绑定数据
+            onBindData(holder, position, item);
+        } else {
+            T item = mList.get(position);
+            // 绑定数据
+            onBindData(holder, position, item, payloads);
+        }
+    }
+
+    protected void onBindData(BH viewHolder, int position, T item, List<Object> payloads) {
+
     }
 
     @Override
-    public final int getItemCount() {
+    public  int getItemCount() {
         return mList == null ? 0 : mList.size();
     }
 

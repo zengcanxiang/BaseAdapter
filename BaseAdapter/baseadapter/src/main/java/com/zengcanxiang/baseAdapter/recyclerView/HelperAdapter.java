@@ -45,13 +45,27 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
 
 
     @Override
-    protected void onBindData(BH viewHolder, int position, T item) {
+    protected final void onBindData(BH viewHolder, int position, T item) {
         HelperViewHolder helperViewHolder = (HelperViewHolder) viewHolder;
 
         HelperBindData(helperViewHolder, position, item);
 
         //赋值相关事件,例如点击长按等
         setListener(helperViewHolder, position, item);
+    }
+
+    @Override
+    protected final void onBindData(BH viewHolder, int position, T item, List<Object> payloads) {
+        HelperViewHolder helperViewHolder = (HelperViewHolder) viewHolder;
+
+        HelperBindData(helperViewHolder, position, item, payloads);
+
+        //赋值相关事件,例如点击长按等
+        setListener(helperViewHolder, position, item);
+    }
+
+    protected void HelperBindData(HelperViewHolder viewHolder, int position, T item, List<Object> payloads) {
+
     }
 
     protected abstract void HelperBindData(HelperViewHolder viewHolder, int position, T item);
@@ -196,4 +210,13 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
         }
     }
 
+    @Override
+    public final int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
+    @Override
+    public  int getItemCount() {
+        return super.getItemCount();
+    }
 }
