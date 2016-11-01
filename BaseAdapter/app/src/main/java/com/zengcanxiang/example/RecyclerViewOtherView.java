@@ -90,6 +90,10 @@ public class RecyclerViewOtherView extends AppCompatActivity {
         menu.add("listView+head+foot");
         menu.add("gridView+head+foot");
         menu.add("StaggeredGrid+head+foot");
+        menu.add("addHead");
+        menu.add("addFoot");
+        menu.add("removeHead");
+        menu.add("removeFoot");
         return true;
     }
 
@@ -114,6 +118,18 @@ public class RecyclerViewOtherView extends AppCompatActivity {
                 recyclerViewother.setLayoutManager(mStaggeredGrid);
                 recyclerViewother.setAdapter(headFootAdapter);
                 return true;
+            case "removeHead":
+                headFootAdapter.removeHeadView();
+                break;
+            case "removeFoot":
+                headFootAdapter.removeFootView();
+                break;
+            case "addHead":
+                headFootAdapter.addHeadView(head);
+                break;
+            case "addFoot":
+                headFootAdapter.addFootView(footer);
+                break;
         }
         return false;
 

@@ -1,5 +1,6 @@
 package com.zengcanxiang.baseAdapter.recyclerView;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zengcanxiang.baseAdapter.R;
+
+import java.util.List;
 
 /**
  * 支持headView,footerView的RecyclerViewAdapter
@@ -119,12 +122,23 @@ public class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mDataAdapter.onBindViewHolder(holder, head2DataPosition(position));
         }
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, List<Object> payloads) {
+        if (holder instanceof HeadFooterViewHolder) {
+            bind((HeadFooterViewHolder) holder, position);
+        } else {
+            mDataAdapter.onBindViewHolder(holder, head2DataPosition(position), payloads);
+        }
+    }
+
     @SuppressWarnings("all")
     private void bind(HeadFooterViewHolder holder, int position) {
         View viewToAdd = isHeader(position) ? mHeadView : mFootView;
 
         ViewGroup itemView = (ViewGroup) holder.itemView;
-        if (itemView != null && viewToAdd != null) {
+        if (itemView != null) {
             itemView.removeAllViews();
             itemView.addView(viewToAdd);
         }
@@ -211,12 +225,23 @@ public class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     /**
+     * 获取footView position
+     */
+    private int getFootPosition() {
+        return mDataAdapter.getItemCount() + (hasHeadView() ? 1 : 0);
+    }
+
+    /**
      * 获取尾部在headAdapter的位置
      *
-     * @return 是否有FooterView:  <code>false</code> -1 ; <code>true</code> dataAdapter的数据个数+1
+     * @return 是否有FooterView:  <code>false</code> -1 ; <code>true</code> footView的位置
      */
     public int getFootViewPosition() {
-        return hasFootView() ? mDataAdapter.getItemCount() + 1 : -1;
+        if (hasFootView()) {
+            return getFootPosition();
+        } else {
+            return -1;
+        }
     }
 
     /**
@@ -233,7 +258,7 @@ public class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private boolean isFooter(int position) {
-        return hasFootView() && position == getFootViewPosition();
+        return hasFootView() && position == getFootPosition();
     }
 
     public boolean hasHeadView() {
@@ -249,7 +274,13 @@ public class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void addHeadView(@Nullable View headView) {
+        if (mHeadView == headView) {
+            return;
+        }
         boolean hadHeader = mHeadView != null;
+        if (hadHeader) {
+            detachFromParent(this.mHeadView);
+        }
         mHeadView = headView;
         //如果传进来的head为null,就移除头部
         if (headView == null) {
@@ -277,24 +308,39 @@ public class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void addFootView(@Nullable View footView) {
+        if (mFootView == footView) {
+            return;
+        }
         boolean hadFooter = mFootView != null;
+
+        if (hadFooter) {
+            detachFromParent(this.mFootView);
+        }
+
         mFootView = footView;
 
         if (footView == null) {
             if (hadFooter) {
-                notifyItemRemoved(getFootViewPosition());
+                notifyItemRemoved(getFootPosition());
             }
         } else {
             if (hadFooter) {
-                notifyItemChanged(getFootViewPosition());
+                notifyItemChanged(getFootPosition());
             } else {
-                notifyItemInserted(getFootViewPosition());
+                notifyItemInserted(getFootPosition());
             }
         }
     }
 
     public void removeFootView() {
         addFootView(null);
+    }
+
+    private void detachFromParent(@NonNull View view) {
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent != null) {
+            parent.removeView(view);
+        }
     }
 
     private class HeadFooterViewHolder extends RecyclerView.ViewHolder {
