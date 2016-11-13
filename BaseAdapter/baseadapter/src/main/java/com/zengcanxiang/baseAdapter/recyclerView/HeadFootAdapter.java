@@ -1,16 +1,15 @@
 package com.zengcanxiang.baseAdapter.recyclerView;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.LayoutRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.zengcanxiang.baseAdapter.R;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,14 +17,17 @@ import java.util.List;
  *
  * @author zengcx
  */
-public class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private final int ID_HEAD = 0x01, ID_FOOTER = 0x02;
-    private final int VIEW_TYPE_HEAD = 0x001, VIEW_TYPE_FOOTER = 0x002;
-    private View mHeadView, mFootView;
+public abstract class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private final int BASE_ID = -1;
+    private final int BASE_ITEM_TYPE_FOOTER = 2000000;
+    private int poolCacheSize = 5;
     private RecyclerView.Adapter mDataAdapter;
+    private LayoutInflater mLInflater;
+    private ViewGroup mParent;
+    private ArrayList<Integer> mHeadLayouts = new ArrayList<>();
+    private SparseArray<View> mFootViews = new SparseArray<>();
+
     private RecyclerView.LayoutManager mLayoutManager;
-    private boolean isStaggered;
 
     public HeadFootAdapter(RecyclerView.Adapter dataAdapter) {
         this.mDataAdapter = dataAdapter;
@@ -70,15 +72,27 @@ public class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        if (mHeadView != null && mHeadView.getParent() != null) {
-            ((ViewGroup) mHeadView.getParent()).removeView(mHeadView);
-        }
-        if (mFootView != null && mFootView.getParent() != null) {
-            ((ViewGroup) mFootView.getParent()).removeView(mFootView);
+        if (!mHeadLayouts.isEmpty()) {
+            for (int i = 0; i < mHeadLayouts.size(); i++) {
+                recyclerView.getRecycledViewPool().setMaxRecycledViews(mHeadLayouts.get(i), poolCacheSize);
+            }
         }
         mLayoutManager = recyclerView.getLayoutManager();
         initLayoutManager();
+    }
+
+    @Override
+    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+        int position = holder.getLayoutPosition();
+        if (isHead(position) || isFoot(position)) {
+            ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
+            if (lp != null && lp instanceof StaggeredGridLayoutManager.LayoutParams) {
+                StaggeredGridLayoutManager.LayoutParams p =
+                        (StaggeredGridLayoutManager.LayoutParams) lp;
+                p.setFullSpan(true);
+            }
+        }
+        mDataAdapter.onViewAttachedToWindow(holder);
     }
 
     /**
@@ -86,38 +100,51 @@ public class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      */
     private void initLayoutManager() {
         if (mLayoutManager instanceof GridLayoutManager) {
-            final GridLayoutManager castedLayoutManager = (GridLayoutManager) mLayoutManager;
-            final GridLayoutManager.SpanSizeLookup existingLookup = castedLayoutManager.getSpanSizeLookup();
+            final GridLayoutManager gridLayoutManager = (GridLayoutManager) mLayoutManager;
+            final GridLayoutManager.SpanSizeLookup spanSizeLookup = gridLayoutManager.getSpanSizeLookup();
 
-            castedLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
-                    if (isHeader(position) || isFooter(position)) {
-                        return castedLayoutManager.getSpanCount();
+                    if (isHead(position) || isFoot(position)) {
+                        return gridLayoutManager.getSpanCount();
                     }
-                    return existingLookup.getSpanSize(head2DataPosition(position));
+                    return spanSizeLookup.getSpanSize(head2DataPosition(position));
                 }
             });
-        } else if (mLayoutManager instanceof StaggeredGridLayoutManager) {
-            isStaggered = true;
+            gridLayoutManager.setSpanCount(gridLayoutManager.getSpanCount());
         }
     }
 
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == VIEW_TYPE_HEAD || viewType == VIEW_TYPE_FOOTER) {
-            return new HeadFooterViewHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.base_head_footer_adapter_item, parent, false));
-        } else {
-            return mDataAdapter.onCreateViewHolder(parent, viewType);
+        mParent = parent;
+        mLInflater = LayoutInflater.from(parent.getContext());
+
+        if (mFootViews.get(viewType) != null) {
+            View footView = mFootViews.get(viewType);
+            return HeadFootViewHolder.get(parent.getContext(), footView, parent, viewType);
+        } else if (!mHeadLayouts.isEmpty()) {
+            for (int i = 0; i < mHeadLayouts.size(); i++) {
+                //以layoutId为viewType
+                if (mHeadLayouts.get(i) == viewType) {
+                    return HeadFootViewHolder.get(parent.getContext(), null, parent, viewType);
+                }
+            }
         }
+        return mDataAdapter.onCreateViewHolder(parent, viewType);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof HeadFooterViewHolder) {
-            bind((HeadFooterViewHolder) holder, position);
+        if (holder instanceof HeadFootViewHolder) {
+            if (isHead(position)) {
+                disposeHeadView((HelperViewHolder) holder, position);
+            } else if (isFoot(position)) {
+                disposeFootView((HelperViewHolder) holder, position);
+            }
         } else {
             mDataAdapter.onBindViewHolder(holder, head2DataPosition(position));
         }
@@ -126,53 +153,15 @@ public class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     @SuppressWarnings("unchecked")
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, List<Object> payloads) {
-        if (holder instanceof HeadFooterViewHolder) {
-            bind((HeadFooterViewHolder) holder, position);
+        if (holder instanceof HeadFootViewHolder) {
+            if (isHead(position)) {
+                disposeHeadView((HeadFootViewHolder) holder, position);
+            } else if (isFoot(position)) {
+                disposeFootView((HeadFootViewHolder) holder, position);
+            }
         } else {
             mDataAdapter.onBindViewHolder(holder, head2DataPosition(position), payloads);
         }
-    }
-
-    @SuppressWarnings("all")
-    private void bind(HeadFooterViewHolder holder, int position) {
-        View viewToAdd = isHeader(position) ? mHeadView : mFootView;
-
-        ViewGroup itemView = (ViewGroup) holder.itemView;
-        if (itemView != null) {
-            itemView.removeAllViews();
-            itemView.addView(viewToAdd);
-        }
-
-        ViewGroup.LayoutParams layoutParams;
-        //设置瀑布流头部、尾部布局宽度高度调整
-        if (isStaggered) {
-            if (viewToAdd.getLayoutParams() == null) {
-                layoutParams = new StaggeredGridLayoutManager.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                );
-            } else {
-                layoutParams = new StaggeredGridLayoutManager.LayoutParams(
-                        viewToAdd.getLayoutParams().width,
-                        viewToAdd.getLayoutParams().height
-                );
-            }
-            ((StaggeredGridLayoutManager.LayoutParams) layoutParams).setFullSpan(true);
-        } else {
-            if (viewToAdd.getLayoutParams() == null) {
-                layoutParams = new ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                );
-            } else {
-                layoutParams = new ViewGroup.LayoutParams(
-                        viewToAdd.getLayoutParams().width,
-                        viewToAdd.getLayoutParams().height
-                );
-            }
-        }
-
-        holder.itemView.setLayoutParams(layoutParams);
     }
 
 
@@ -180,20 +169,20 @@ public class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public int getItemCount() {
         int itemCount = mDataAdapter.getItemCount();
         if (hasHeadView()) {
-            itemCount += 1;
+            itemCount += getHeadSize();
         }
         if (hasFootView()) {
-            itemCount += 1;
+            itemCount += getFootSize();
         }
         return itemCount;
     }
 
     @Override
     public long getItemId(int position) {
-        if (isHeader(position)) {
-            return ID_HEAD;
-        } else if (isFooter(position)) {
-            return ID_FOOTER;
+        if (isHead(position)) {
+            return BASE_ID + 1 + position;
+        } else if (isFoot(position)) {
+            return BASE_ID - 1 - position;
         } else {
             return mDataAdapter.getItemId(position);
         }
@@ -201,153 +190,198 @@ public class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        if (isHeader(position)) {
-            return VIEW_TYPE_HEAD;
-        } else if (isFooter(position)) {
-            return VIEW_TYPE_FOOTER;
+        if (isHead(position)) {
+            return mHeadLayouts.get(position);
+        } else if (isFoot(position)) {
+            return mFootViews.keyAt(position - getHeadSize() - mDataAdapter.getItemCount());
         } else {
             return mDataAdapter.getItemViewType(head2DataPosition(position));
         }
     }
 
     /**
-     * dataAdapter position对应在headAdapter上的位置
+     * 判断是否为headView
      */
-    public int data2HeadPosition(int position) {
-        return position + (hasHeadView() ? 1 : 0);
+    private boolean isHead(int position) {
+        return hasHeadView() && getHeadSize() > position;
     }
 
     /**
-     * headAdapter position对应在dataAdapter上的位置
+     * 判断是否为footView
+     */
+    private boolean isFoot(int position) {
+        return hasFootView() && position >= (getHeadSize() + mDataAdapter.getItemCount());
+    }
+
+    /**
+     * 判断是否有headView
+     */
+    public boolean hasHeadView() {
+        return getHeadSize() != 0;
+    }
+
+    /**
+     * 判断是否有footView
+     */
+    public boolean hasFootView() {
+        return mFootViews.size() != 0;
+    }
+
+
+    /**
+     * 获取headView数量
+     */
+    public int getHeadSize() {
+        return mHeadLayouts.size();
+    }
+
+    /**
+     * 获取footView数量
+     */
+    public int getFootSize() {
+        return mFootViews.size();
+    }
+
+    /**
+     * 添加headView
+     */
+    public void addHeadView(@LayoutRes int layoutId) {
+        mHeadLayouts.add(layoutId);
+        notifyItemInserted(mHeadLayouts.size() - 1);
+    }
+
+    /**
+     * 添加headView,可指定位置
+     */
+    public void addHeadView(int index, @LayoutRes int layoutId) {
+        if (index < 0) {
+            index = 0;
+        }
+        index = index > mHeadLayouts.size() ? mHeadLayouts.size() : index;
+        mHeadLayouts.add(index, layoutId);
+        notifyItemInserted(index);
+    }
+
+    /**
+     * 添加footView(不能通过layoutId来删除,因为内部使用了一个数字来代替未知的layoutId)
+     */
+    public void addFootView(View footView) {
+        addFootView(mFootViews.size(), footView);
+    }
+
+    /**
+     * 添加footView(可通过layoutId或者footView来删除)
+     */
+    public void addFootView(int layoutId, View footView) {
+        mFootViews.put(layoutId + BASE_ITEM_TYPE_FOOTER, footView);
+        notifyItemInserted(getItemCount() - 1);
+    }
+
+    /**
+     * 添加footView(可通过layoutId或者footView来删除)
+     */
+    public void addFootView(@LayoutRes int layoutId) {
+        mFootViews.put(layoutId + BASE_ITEM_TYPE_FOOTER, inflaterView(layoutId));
+        notifyItemInserted(getItemCount() - 1);
+    }
+
+    /**
+     * 根据位置删除headView
+     */
+    public void removeHeadViewByIndex(int index) {
+        if (index < 0) {
+            index = 0;
+        } else if (index > mHeadLayouts.size()) {
+            index = mHeadLayouts.size() - 1;
+        }
+        mHeadLayouts.remove(index);
+        notifyItemRemoved(index);
+    }
+
+    /**
+     * 根据位置删除footView
+     */
+    public void removeFootViewByIndex(int index) {
+        if (index < 0) {
+            index = 0;
+        } else if (index > mFootViews.size()) {
+            index = mFootViews.size() - 1;
+        }
+        mFootViews.removeAt(index);
+        notifyItemRemoved(mHeadLayouts.size() + mDataAdapter.getItemCount() + index - 1);
+    }
+
+    /**
+     * 删除layoutId对应的headView
+     */
+    public void removeHeadView(@LayoutRes int layoutId) {
+        int index = mHeadLayouts.indexOf(layoutId);
+        removeHeadViewByIndex(index);
+
+    }
+
+    /**
+     * 删除layoutId对应的footView
+     */
+    public void removeFootView(@LayoutRes int layoutId) {
+        int index = mFootViews.indexOfKey(BASE_ITEM_TYPE_FOOTER + layoutId);
+        if (index < 0) {
+            throw new IllegalArgumentException("addFootView is the use of layoutId ? ");
+        }
+        removeFootViewByIndex(index);
+    }
+
+    public void removeFootView(View footView) {
+        int i = mFootViews.indexOfValue(footView);
+        removeFootViewByIndex(i);
+    }
+
+    /**
+     * 清除所有的headView
+     */
+    public void clearHeadView() {
+        mHeadLayouts.clear();
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 清除所有的footView
+     */
+    public void clearFootView() {
+        mFootViews.clear();
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 实例化view,用于要添加到RecyclerView的View,不会导致设置的宽高不铺满
+     */
+    public View inflaterView(@LayoutRes int layoutId) {
+        return mLInflater.inflate(layoutId, mParent, false);
+    }
+
+    /**
+     * 转换headAdapter position对应在dataAdapter上的位置
      */
     private int head2DataPosition(int position) {
-        return position - (hasHeadView() ? 1 : 0);
+        return position - (hasHeadView() ? getHeadSize() : 0);
     }
 
     /**
-     * 获取footView position
+     * 转换dataAdapter position在headAdapter的位置
      */
-    private int getFootPosition() {
-        return mDataAdapter.getItemCount() + (hasHeadView() ? 1 : 0);
+    private int data2HeadPosition(int position) {
+        return position + (hasHeadView() ? getHeadSize() : 0);
     }
 
     /**
-     * 获取尾部在headAdapter的位置
-     *
-     * @return 是否有FooterView:  <code>false</code> -1 ; <code>true</code> footView的位置
+     * 处理headView
      */
-    public int getFootViewPosition() {
-        if (hasFootView()) {
-            return getFootPosition();
-        } else {
-            return -1;
-        }
-    }
+    public abstract void disposeHeadView(HelperViewHolder viewHolder, int position);
 
     /**
-     * 获取头部在headAdapter的位置
-     *
-     * @return 是否有HeadView:  <code>false</code> -1 <code>true</code> 0
+     * 处理footView
      */
-    public int getHeadViewPosition() {
-        return hasHeadView() ? 0 : -1;
-    }
-
-    private boolean isHeader(int position) {
-        return hasHeadView() && position == 0;
-    }
-
-    private boolean isFooter(int position) {
-        return hasFootView() && position == getFootPosition();
-    }
-
-    public boolean hasHeadView() {
-        return getHeadView() != null;
-    }
-
-    public boolean hasFootView() {
-        return getFootView() != null;
-    }
-
-    public View getHeadView() {
-        return mHeadView;
-    }
-
-    public void addHeadView(@Nullable View headView) {
-        if (mHeadView == headView) {
-            return;
-        }
-        boolean hadHeader = mHeadView != null;
-        if (hadHeader) {
-            detachFromParent(this.mHeadView);
-        }
-        mHeadView = headView;
-        //如果传进来的head为null,就移除头部
-        if (headView == null) {
-            //如果之前存在头部，清除
-            if (hadHeader) {
-                notifyItemRemoved(0);
-            }
-        } else {
-            //否则添加头部view到adapter
-            //如果之前存在头部view,做更新，不存在，做插入
-            if (hadHeader) {
-                notifyItemChanged(0);
-            } else {
-                notifyItemInserted(0);
-            }
-        }
-    }
-
-    public void removeHeadView() {
-        addHeadView(null);
-    }
-
-    public View getFootView() {
-        return mFootView;
-    }
-
-    public void addFootView(@Nullable View footView) {
-        if (mFootView == footView) {
-            return;
-        }
-        boolean hadFooter = mFootView != null;
-
-        if (hadFooter) {
-            detachFromParent(this.mFootView);
-        }
-
-        mFootView = footView;
-
-        if (footView == null) {
-            if (hadFooter) {
-                notifyItemRemoved(getFootPosition());
-            }
-        } else {
-            if (hadFooter) {
-                notifyItemChanged(getFootPosition());
-            } else {
-                notifyItemInserted(getFootPosition());
-            }
-        }
-    }
-
-    public void removeFootView() {
-        addFootView(null);
-    }
-
-    private void detachFromParent(@NonNull View view) {
-        ViewGroup parent = (ViewGroup) view.getParent();
-        if (parent != null) {
-            parent.removeView(view);
-        }
-    }
-
-    private class HeadFooterViewHolder extends RecyclerView.ViewHolder {
-        HeadFooterViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
+    public abstract void disposeFootView(HelperViewHolder viewHolder, int position);
 
 
 }

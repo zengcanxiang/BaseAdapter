@@ -27,7 +27,7 @@ public abstract class BaseAdapter<T> extends BaseExpandableListAdapter {
     private int[] groupLayoutIds;
     private int[] childLayoutIds;
     private BaseViewHolder holder = new HelperViewHolder();
-
+    private ViewGroup mGroupParent, mChildParent;
 
     /**
      * @param data           数据源
@@ -35,7 +35,7 @@ public abstract class BaseAdapter<T> extends BaseExpandableListAdapter {
      * @param groupLayoutIds group布局Id数组
      * @param childLayoutIds child布局Id数组
      */
-    public BaseAdapter(@Nullable List<List<T>> data, Context context, @NonNull @LayoutRes int[] groupLayoutIds, @NonNull@LayoutRes int... childLayoutIds) {
+    public BaseAdapter(@Nullable List<List<T>> data, Context context, @NonNull @LayoutRes int[] groupLayoutIds, @NonNull @LayoutRes int... childLayoutIds) {
         this.mList = data;
         this.groupLayoutIds = groupLayoutIds;
         this.childLayoutIds = childLayoutIds;
@@ -97,7 +97,7 @@ public abstract class BaseAdapter<T> extends BaseExpandableListAdapter {
      * 分组和子选项是否持有稳定的ID, 就是说底层数据的改变会不会影响到它们
      */
     @Override
-    public  boolean hasStableIds() {
+    public boolean hasStableIds() {
         return true;
     }
 
@@ -105,7 +105,7 @@ public abstract class BaseAdapter<T> extends BaseExpandableListAdapter {
      * 指定位置上的子元素是否可选中
      */
     @Override
-    public  boolean isChildSelectable(int groupPosition, int childPosition) {
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
 
@@ -115,6 +115,7 @@ public abstract class BaseAdapter<T> extends BaseExpandableListAdapter {
         if (groupLayoutIds == null || groupLayoutIds.length == 0) {
             throw new IllegalArgumentException("not groupLayoutId");
         }
+        mGroupParent = parent;
         int groupLayoutId = groupLayoutIds[checkGroupLayoutIndex(groupPosition, mList.get(groupPosition))];
         holder = holder.get(mContext, groupPosition, convertView, parent, groupLayoutId);
         convertGroup(holder, groupPosition, mList.get(groupPosition));
@@ -126,6 +127,7 @@ public abstract class BaseAdapter<T> extends BaseExpandableListAdapter {
         if (childLayoutIds == null || childLayoutIds.length == 0) {
             throw new IllegalArgumentException("not childLayoutId");
         }
+        mChildParent = parent;
         int childLayoutId = childLayoutIds[checkChildLayoutIndex(childPosition, mList.get(groupPosition).get(childPosition))];
         holder = holder.get(mContext, childPosition, convertView, parent, childLayoutId);
         convertChild(holder, groupPosition, childPosition, mList.get(groupPosition).get(childPosition));
@@ -173,4 +175,11 @@ public abstract class BaseAdapter<T> extends BaseExpandableListAdapter {
      */
     public abstract <BH extends BaseViewHolder> void convertChild(BH viewHolder, int groupPosition, int childPosition, T t);
 
+    public ViewGroup getGroupParent() {
+        return mGroupParent;
+    }
+
+    public ViewGroup getChildParent() {
+        return mChildParent;
+    }
 }

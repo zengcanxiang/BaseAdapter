@@ -30,8 +30,9 @@ public abstract class BaseAdapter2<G, C> extends BaseExpandableListAdapter {
     private int[] groupLayoutIds;
     private int[] childLayoutIds;
     private BaseViewHolder holder = new HelperViewHolder();
+    private ViewGroup mGroupParent, mChildParent;
 
-    public BaseAdapter2(@Nullable List<G> groupData, List<List<C>> childData, Context context, @NonNull @LayoutRes int[] groupLayoutIds, @NonNull@LayoutRes int... childLayoutIds) {
+    public BaseAdapter2(@Nullable List<G> groupData, List<List<C>> childData, Context context, @NonNull @LayoutRes int[] groupLayoutIds, @NonNull @LayoutRes int... childLayoutIds) {
         this.mChildData = childData;
         this.mGroupData = groupData;
         this.groupLayoutIds = groupLayoutIds;
@@ -112,6 +113,7 @@ public abstract class BaseAdapter2<G, C> extends BaseExpandableListAdapter {
         if (groupLayoutIds == null || groupLayoutIds.length == 0) {
             throw new IllegalArgumentException("not groupLayoutId");
         }
+        mGroupParent = parent;
         int groupLayoutId = groupLayoutIds[checkGroupLayoutIndex(groupPosition,
                 mGroupData.get(groupPosition), mChildData.get(groupPosition))];
         holder = holder.get(mContext, groupPosition, convertView, parent, groupLayoutId);
@@ -124,6 +126,7 @@ public abstract class BaseAdapter2<G, C> extends BaseExpandableListAdapter {
         if (childLayoutIds == null || childLayoutIds.length == 0) {
             throw new IllegalArgumentException("not childLayoutId");
         }
+        mChildParent = parent;
         int childLayoutId = childLayoutIds[checkChildLayoutIndex(childPosition,
                 mChildData.get(groupPosition).get(childPosition))];
         holder = holder.get(mContext, childPosition, convertView, parent, childLayoutId);
@@ -158,4 +161,11 @@ public abstract class BaseAdapter2<G, C> extends BaseExpandableListAdapter {
 
     public abstract <BH extends BaseViewHolder> void convertChild(BH viewHolder, int groupPosition, int childPosition, C t);
 
+    public ViewGroup getGroupParent() {
+        return mGroupParent;
+    }
+
+    public ViewGroup getChildParent() {
+        return mChildParent;
+    }
 }

@@ -21,6 +21,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
     protected LayoutInflater mLInflater;
     protected int[] layoutIds;
     private BaseViewHolder holder = new HelperViewHolder();
+    private ViewGroup mParent;
 
     /**
      * @param data      数据源
@@ -36,6 +37,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 
     @Override
     public final View getView(int position, View convertView, ViewGroup parent) {
+        mParent = parent;
         int layoutId = getViewCheckLayoutId(position);
         holder = holder.get(mContext, position, convertView, parent, layoutId);
         convert(holder, position, mList.get(position));
@@ -74,6 +76,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 
     /**
      * 获取position对应的layoutId
+     *
      * @param position 所在位置
      * @return layoutId
      */
@@ -82,7 +85,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
     }
 
     @Override
-    public  int getCount() {
+    public int getCount() {
         return mList == null ? 0 : mList.size();
     }
 
@@ -96,4 +99,14 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
         return position;
     }
 
+    /**
+     * 实例化view,用于要添加到RecyclerView的View,不会导致设置的宽高不铺满
+     */
+    public View inflaterView(@LayoutRes int layoutId) {
+        return mLInflater.inflate(layoutId, mParent, false);
+    }
+
+    public ViewGroup getParent() {
+        return mParent;
+    }
 }

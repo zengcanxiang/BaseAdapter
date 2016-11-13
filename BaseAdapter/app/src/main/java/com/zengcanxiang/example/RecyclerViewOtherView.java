@@ -11,11 +11,8 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.zengcanxiang.baseAdapter.recyclerView.HeadFootAdapter;
@@ -35,10 +32,8 @@ public class RecyclerViewOtherView extends AppCompatActivity {
     private LinearLayoutManager mLayoutManager;
     private StaggeredGridLayoutManager mStaggeredGrid;
     private GridLayoutManager mGridLayoutManager;
-    private View head, footer;
     private MyRecyerAdapter mAdapter;
     private HeadFootAdapter headFootAdapter;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,25 +47,27 @@ public class RecyclerViewOtherView extends AppCompatActivity {
         recyclerViewother.setAdapter(headFootAdapter);
 
     }
-
+    RecyclerView gridView;
     private void initHeadFoot() {
-        head = getLayoutInflater().inflate(R.layout.example_head_footer, null);
-        footer = getLayoutInflater().inflate(R.layout.example_head_footer, null);
-
-        headFootAdapter = new HeadFootAdapter(mAdapter);
-        headFootAdapter.addHeadView(head);
-        headFootAdapter.addFootView(footer);
-
-        List<String> mList = Arrays.asList(PhotoUrl.photoUrls);
-        ExampleGridAdapter adapter2 = new ExampleGridAdapter(mList, this, R.layout.example_viewpager_one);
-        GridViewForScrollview gridView = (GridViewForScrollview) head.findViewById(R.id.headGrid);
-        gridView.setAdapter(adapter2);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        headFootAdapter = new HeadFootAdapter(mAdapter) {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(RecyclerViewOtherView.this, "头部gridviewItem点击", Toast.LENGTH_LONG).show();
+            public void disposeHeadView(HelperViewHolder viewHolder, int position) {
+                gridView = viewHolder.getView(R.id.headGrid);
+                if(gridView.getAdapter()!=null){
+                    return;
+                }
+                ExampleGridAdapter adapter2 = new ExampleGridAdapter(mList, RecyclerViewOtherView.this, R.layout.example_viewpager_one);
+                gridView.setLayoutManager(new GridLayoutManager(RecyclerViewOtherView.this,2));
+                gridView.setNestedScrollingEnabled(true);
+                gridView.setAdapter(adapter2);
             }
-        });
+
+            @Override
+            public void disposeFootView(HelperViewHolder viewHolder, int position) {
+
+            }
+        };
+        headFootAdapter.addHeadView(R.layout.example_head_footer);
     }
 
     private void initRecy() {
@@ -119,32 +116,33 @@ public class RecyclerViewOtherView extends AppCompatActivity {
                 recyclerViewother.setAdapter(headFootAdapter);
                 return true;
             case "removeHead":
-                headFootAdapter.removeHeadView();
+                headFootAdapter.removeHeadView(R.layout.example_head_footer);
                 break;
             case "removeFoot":
-                headFootAdapter.removeFootView();
+                headFootAdapter.removeFootView(R.layout.example_head_footer);
                 break;
             case "addHead":
-                headFootAdapter.addHeadView(head);
+                headFootAdapter.addHeadView(R.layout.example_head_footer);
                 break;
             case "addFoot":
-                headFootAdapter.addFootView(footer);
+                headFootAdapter.addFootView(R.layout.example_head_footer);
                 break;
         }
         return false;
 
     }
 
-    public class ExampleGridAdapter extends com.zengcanxiang.baseAdapter.absListView.HelperAdapter<String> {
+    public class ExampleGridAdapter extends HelperAdapter<String> {
 
         public ExampleGridAdapter(List<String> mList, Context context, int... layoutIds) {
             super(mList, context, layoutIds);
         }
 
         @Override
-        public void HelpConvert(com.zengcanxiang.baseAdapter.absListView.HelperViewHolder viewHolder, int position, String s) {
+        protected void HelperBindData(HelperViewHolder viewHolder, int position, String item) {
             viewHolder.setText(R.id.example_viewpager_text, position + "");
         }
+
     }
 
     private class MyRecyerAdapter extends HelperAdapter<String> {

@@ -22,6 +22,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BH> {
     protected LayoutInflater mLInflater;
     protected int[] mLayoutId;
     private SparseArray<View> mConvertViews = new SparseArray<>();
+    private ViewGroup mParent;
 
     /**
      * @param data     数据源
@@ -36,7 +37,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BH> {
     }
 
     @Override
-    public  int getItemViewType(int position) {
+    public int getItemViewType(int position) {
         return checkLayoutIndex(mList.get(position), position);
     }
 
@@ -48,6 +49,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BH> {
         if (mLayoutId.length == 0) {
             throw new IllegalArgumentException("not layoutId");
         }
+        mParent = parent;
         int layoutId = mLayoutId[viewType];
         View view = inflateItemView(layoutId, parent);
         BaseViewHolder viewHolder = (BaseViewHolder) view.getTag();
@@ -97,7 +99,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BH> {
     }
 
     @Override
-    public  int getItemCount() {
+    public int getItemCount() {
         return mList == null ? 0 : mList.size();
     }
 
@@ -114,4 +116,14 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BH> {
         return 0;
     }
 
+    /**
+     * 实例化view,用于要添加到RecyclerView的View,不会导致设置的宽高不铺满
+     */
+    public View inflaterView(@LayoutRes int layoutId) {
+        return mLInflater.inflate(layoutId, mParent, false);
+    }
+
+    public ViewGroup getParent() {
+        return mParent;
+    }
 }
