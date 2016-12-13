@@ -8,14 +8,19 @@ This project is to encapsulate listview or GridView as well as Adapter. Recycler
 </ul>
 But in terms of personal habits, it is more complex to feel the project, to absorb the essence, to simplify the use of it.
 
-![示例](https://github.com/zengcanxiang/BaseAdapter/blob/master/Animation.gif)
+![示例](https://github.com/zengcanxiang/BaseAdapter/blob/master/Animation.gif)  
+
+[demo.apk](https://github.com/zengcanxiang/BaseAdapter/blob/master/app-debug.apk)  
 
 [中文文档][1]
 
 ## compile
 ```java
-compile 'com.zengcanxiang.baseAdapter:baseadapter:1.4.6
-```   
+
+compile 'com.zengcanxiang.baseAdapter:baseadapter:1.4.9'
+
+```
+
 ###Example
 ####1.ordinary absListView
 ```java
@@ -298,6 +303,24 @@ public class ViewAdapter extends BaseAdapter {
   ragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), fragments);
 
 ```
+#### 6.headFootViewAdapter(RecyclerView)
+```java
+import com.zengcanxiang.baseAdapter.recyclerView.HeadFootAdapter;
+
+MyRecyerAdapter mAdapter = new MyRecyerAdapter(mList, this, R.layout.example_item);
+HeadFootAdapter headFootAdapter = new HeadFootAdapter(mAdapter) {
+            @Override
+            public void disposeHeadView(HelperViewHolder viewHolder, int layoutId, int position) {
+            }
+
+            @Override
+            public void disposeFootView(HelperViewHolder viewHolder, View footView, int position) {
+
+            }
+        };
+headFootAdapter.addHeadView(R.layout.list_head_home);
+```
+
 <a href="https://github.com/zengcanxiang/BaseAdapter/tree/master/BaseAdapter/app">example</a>
 
 ### License

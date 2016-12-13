@@ -1,10 +1,6 @@
 package com.zengcanxiang.example;
 
-/**
- * Created by zengcanxiang on 2016/6/26.
- */
 public class PhotoUrl {
-
     public static final String p1 = "http://image.tianjimedia.com/uploadImages/2015/129/56/J63MI042Z4P8.jpg";
     public static final String p2 = "http://b.hiphotos.baidu.com/image/h%3D360/sign=480416e95d82b2b7b89f3fc201accb0a/d009b3de9c82d15825ffd75c840a19d8bd3e42da.jpg";
     public static final String p3 = "http://a.hiphotos.baidu.com/image/h%3D360/sign=4f6888e673c6a7efa626ae20cdfaafe9/f9dcd100baa1cd11daf25f19bc12c8fcc3ce2d46.jpg";
@@ -21,5 +17,5 @@ public class PhotoUrl {
     public static final String p14 = "http://img3.imgtn.bdimg.com/it/u=2883277031,2810817002&fm=21&gp=0.jpg";
     public static final String p15 = "http://img2.imgtn.bdimg.com/it/u=3220671658,8191684&fm=21&gp=0.jpg";
 
-    public static final String[] photoUrls = new String[]{p7, p8, p9, p10, p11, p12, p13, p14, p15,p1, p2, p3, p4, p5, p6};
+    public static final String[] photoUrls = new String[]{p7, p8, p9, p10, p11, p12, p13, p14, p15, p1, p2, p3, p4, p5, p6};
 }

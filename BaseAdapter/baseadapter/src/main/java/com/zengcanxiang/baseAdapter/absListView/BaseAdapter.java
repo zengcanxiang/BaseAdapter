@@ -40,7 +40,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
         mParent = parent;
         int layoutId = getViewCheckLayoutId(position);
         holder = holder.get(mContext, position, convertView, parent, layoutId);
-        convert(holder, position, mList.get(position));
+        bindData(holder, position, mList.get(position));
         return holder.getConvertView(layoutId);
     }
 
@@ -61,7 +61,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
      * @param position   position
      * @param t          数据源中,当前对应的bean
      */
-    public abstract <BH extends BaseViewHolder> void convert(BH viewHolder, int position, T t);
+    public abstract <BH extends BaseViewHolder> void bindData(BH viewHolder, int position, T t);
 
     /**
      * <p>根据业务逻辑确定layoutId位置,使用在listView中有几种样式</p>

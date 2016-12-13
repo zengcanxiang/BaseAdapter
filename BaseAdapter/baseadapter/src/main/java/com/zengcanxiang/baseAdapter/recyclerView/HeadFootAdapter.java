@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -129,7 +130,8 @@ public abstract class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.
             for (int i = 0; i < mHeadLayouts.size(); i++) {
                 //以layoutId为viewType
                 if (mHeadLayouts.get(i) == viewType) {
-                    return HeadFootViewHolder.get(parent.getContext(), null, parent, viewType);
+                    return  HeadFootViewHolder.get(parent.getContext(),
+                            null, parent, viewType);
                 }
             }
         }
@@ -141,9 +143,9 @@ public abstract class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HeadFootViewHolder) {
             if (isHead(position)) {
-                disposeHeadView((HelperViewHolder) holder, position);
+                disposeHeadView((HelperViewHolder) holder, mHeadLayouts.get(position), position);
             } else if (isFoot(position)) {
-                disposeFootView((HelperViewHolder) holder, position);
+                disposeFootView((HelperViewHolder) holder, mFootViews.get(position), position);
             }
         } else {
             mDataAdapter.onBindViewHolder(holder, head2DataPosition(position));
@@ -155,9 +157,9 @@ public abstract class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, List<Object> payloads) {
         if (holder instanceof HeadFootViewHolder) {
             if (isHead(position)) {
-                disposeHeadView((HeadFootViewHolder) holder, position);
+                disposeHeadView((HelperViewHolder) holder, mHeadLayouts.get(position), position);
             } else if (isFoot(position)) {
-                disposeFootView((HeadFootViewHolder) holder, position);
+                disposeFootView((HelperViewHolder) holder, mFootViews.get(position), position);
             }
         } else {
             mDataAdapter.onBindViewHolder(holder, head2DataPosition(position), payloads);
@@ -251,6 +253,24 @@ public abstract class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     /**
+     * 批量添加headView
+     */
+    public void addHeadView(ArrayList<Integer> layoutIds) {
+        int oldSize = mHeadLayouts.size();
+        mHeadLayouts.addAll(layoutIds);
+        notifyItemRangeInserted(oldSize - 1, layoutIds.size());
+    }
+
+    /**
+     * 批量添加headView
+     */
+    public void addHeadView(@LayoutRes Integer[] layoutIds) {
+        int oldSize = mHeadLayouts.size();
+        mHeadLayouts.addAll(Arrays.asList(layoutIds));
+        notifyItemRangeInserted(oldSize - 1, layoutIds.length);
+    }
+
+    /**
      * 添加headView,可指定位置
      */
     public void addHeadView(int index, @LayoutRes int layoutId) {
@@ -263,6 +283,30 @@ public abstract class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     /**
+     * 批量添加headView,可指定位置
+     */
+    public void addHeadView(int index, ArrayList<Integer> layoutIds) {
+        if (index < 0) {
+            index = 0;
+        }
+        index = index > mHeadLayouts.size() ? mHeadLayouts.size() : index;
+        mHeadLayouts.addAll(index, layoutIds);
+        notifyItemRangeInserted(index, layoutIds.size());
+    }
+
+    /**
+     * 批量添加headView,可指定位置
+     */
+    public void addHeadView(int index, @LayoutRes Integer[] layoutIds) {
+        if (index < 0) {
+            index = 0;
+        }
+        index = index > mHeadLayouts.size() ? mHeadLayouts.size() : index;
+        mHeadLayouts.addAll(index, Arrays.asList(layoutIds));
+        notifyItemRangeInserted(index, layoutIds.length);
+    }
+
+    /**
      * 添加footView(不能通过layoutId来删除,因为内部使用了一个数字来代替未知的layoutId)
      */
     public void addFootView(View footView) {
@@ -270,19 +314,26 @@ public abstract class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     /**
-     * 添加footView(可通过layoutId或者footView来删除)
+     * 添加footView(可通过key或者footView来删除)
+     *
+     * @throws IllegalArgumentException 该方法不能重复添加相同key的footView
      */
-    public void addFootView(int layoutId, View footView) {
-        mFootViews.put(layoutId + BASE_ITEM_TYPE_FOOTER, footView);
+    public void addFootView(int key, View footView) {
+        int keyTemp = key + BASE_ITEM_TYPE_FOOTER;
+        if (mFootViews.indexOfKey(keyTemp) >= 0) {
+            throw new IllegalArgumentException("have the same key.\n重复添加相同的layoutId为key的footView.");
+        }
+        mFootViews.put(keyTemp, footView);
         notifyItemInserted(getItemCount() - 1);
     }
 
     /**
      * 添加footView(可通过layoutId或者footView来删除)
+     *
+     * @throws IllegalArgumentException 该方法不能重复添加相同key的footView
      */
     public void addFootView(@LayoutRes int layoutId) {
-        mFootViews.put(layoutId + BASE_ITEM_TYPE_FOOTER, inflaterView(layoutId));
-        notifyItemInserted(getItemCount() - 1);
+        addFootView(layoutId, inflaterView(layoutId));
     }
 
     /**
@@ -376,12 +427,12 @@ public abstract class HeadFootAdapter extends RecyclerView.Adapter<RecyclerView.
     /**
      * 处理headView
      */
-    public abstract void disposeHeadView(HelperViewHolder viewHolder, int position);
+    public abstract void disposeHeadView(HelperViewHolder viewHolder, int headLayoutId, int position);
 
     /**
      * 处理footView
      */
-    public abstract void disposeFootView(HelperViewHolder viewHolder, int position);
+    public abstract void disposeFootView(HelperViewHolder viewHolder, View footView, int position);
 
 
 }

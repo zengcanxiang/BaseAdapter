@@ -35,7 +35,7 @@ public class HelperViewHolder extends BaseViewHolder implements ViewHelper.Recyc
     }
 
     @Override
-    public HelperViewHolder setText(int viewId, String value) {
+    public HelperViewHolder setText(int viewId, CharSequence value) {
         TextView view = getView(viewId);
         view.setText(value);
         return this;
@@ -97,9 +97,9 @@ public class HelperViewHolder extends BaseViewHolder implements ViewHelper.Recyc
     }
 
     @Override
-    public HelperViewHolder setVisible(int viewId, boolean visible) {
+    public HelperViewHolder setVisible(int viewId, int visibility) {
         View view = getView(viewId);
-        view.setVisibility(visible ? View.VISIBLE : View.GONE);
+        view.setVisibility(visibility);
         return this;
     }
 

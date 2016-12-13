@@ -26,42 +26,47 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
     }
 
     @Override
-    public final BH onCreateViewHolder(ViewGroup parent, int viewType) {
-        HelperViewHolder holder;
+    @SuppressWarnings("all")
+    public final HelperViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType < 0 || viewType > mLayoutId.length) {
             throw new ArrayIndexOutOfBoundsException("checkLayoutIndex > LayoutId.length ：" + viewType + ">" + mLayoutId.length);
         }
         if (mLayoutId.length == 0) {
             throw new IllegalArgumentException("not layoutId");
         }
+        mParent = parent;
         int layoutId = mLayoutId[viewType];
-        View view = inflateItemView(layoutId, parent);
-        holder = (HelperViewHolder) view.getTag();
-        if (holder == null || holder.getLayoutId() != layoutId) {
-            holder = new HelperViewHolder(mContext, layoutId, view);
+        View view = inflaterView(layoutId);
+        HelperViewHolder viewHolder = (HelperViewHolder) view.getTag();
+        if (viewHolder == null || viewHolder.getLayoutId() != layoutId) {
+            viewHolder = new HelperViewHolder(mContext, layoutId, view);
         }
-        return holder;
+        if (mOnItemClickListener != null) {
+            final BaseViewHolder finalViewHolder = viewHolder;
+            viewHolder.getItemView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = finalViewHolder.getAdapterPosition();
+                    mOnItemClickListener.onItemClick(finalViewHolder, position, mList.get(position));
+                }
+            });
+        }
+        return viewHolder;
     }
 
 
     @Override
-    protected final void onBindData(BH viewHolder, int position, T item) {
+    protected final void bindData(BaseViewHolder viewHolder, int position, T item) {
         HelperViewHolder helperViewHolder = (HelperViewHolder) viewHolder;
 
         HelperBindData(helperViewHolder, position, item);
-
-        //赋值相关事件,例如点击长按等
-        setListener(helperViewHolder, position, item);
     }
 
     @Override
-    protected final void onBindData(BH viewHolder, int position, T item, List<Object> payloads) {
+    protected final void bindData(BaseViewHolder viewHolder, int position, T item, List<Object> payloads) {
         HelperViewHolder helperViewHolder = (HelperViewHolder) viewHolder;
 
         HelperBindData(helperViewHolder, position, item, payloads);
-
-        //赋值相关事件,例如点击长按等
-        setListener(helperViewHolder, position, item);
     }
 
     protected void HelperBindData(HelperViewHolder viewHolder, int position, T item, List<Object> payloads) {
@@ -69,18 +74,6 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
     }
 
     protected abstract void HelperBindData(HelperViewHolder viewHolder, int position, T item);
-
-    /**
-     * 绑定相关事件,例如点击长按等,默认空实现
-     *
-     * @param viewHolder viewHolder
-     * @param position   数据的位置
-     * @param item       数据项
-     */
-    @SuppressWarnings("unchecked")
-    protected void setListener(HelperViewHolder viewHolder, int position, T item) {
-
-    }
 
     @Override
     public boolean isEnabled() {
@@ -99,7 +92,6 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
         add(0, data);
     }
 
-
     @Override
     public boolean addItemToLast(T data) {
         if (!isEnabled()) {
@@ -107,16 +99,14 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
             return true;
         }
         boolean result = mList.add(data);
-        notifyDataSetChanged();
+        notifyItemInserted(mList.size() - 1);
         return result;
     }
-
 
     @Override
     public boolean addItemsToHead(List<T> datas) {
         return addAll(0, datas);
     }
-
 
     @Override
     public boolean addItemsToLast(List<T> datas) {
@@ -126,62 +116,57 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
         return addAll(mList.size() - 1, datas);
     }
 
-
     @Override
     public boolean addAll(int startPosition, List<T> datas) {
         initList();
         boolean result = mList.addAll(startPosition < 0 ? 0 : startPosition, datas);
-        notifyDataSetChanged();
+        notifyItemRangeInserted(startPosition, datas.size());
         return result;
     }
-
 
     @Override
     public void add(int startPosition, T data) {
         initList();
         mList.add(startPosition, data);
-        notifyDataSetChanged();
+        notifyItemInserted(startPosition);
     }
 
     @Override
-    public T getData(int index) {
-        return getItemCount() == 0 ? null : mList.get(index);
+    public T getData(int position) {
+        return getItemCount() == 0 ? null : mList.get(position);
     }
-
 
     @Override
     public void alterObj(T oldData, T newData) {
         alterObj(mList.indexOf(oldData), newData);
     }
 
-
     @Override
-    public void alterObj(int index, T data) {
+    public void alterObj(int position, T data) {
         initList();
-        mList.set(index, data);
-        notifyDataSetChanged();
+        mList.set(position, data);
+        notifyItemRangeChanged(position, 1);
     }
-
 
     @Override
     public boolean remove(T data) {
         if (mList == null) {
             throw new IllegalArgumentException("list is null,cannot execute");
         }
+        int position = mList.indexOf(data);
         boolean result = mList.remove(data);
-        notifyDataSetChanged();
+        notifyItemRemoved(position);
         return result;
     }
 
     @Override
-    public void removeToIndex(int index) {
+    public void removeToIndex(int position) {
         if (mList == null) {
             throw new IllegalArgumentException("list is null,cannot execute");
         }
-        mList.remove(index);
-        notifyDataSetChanged();
+        mList.remove(position);
+        notifyItemRemoved(position);
     }
-
 
     @Override
     public void replaceAll(List<T> data) {
@@ -196,7 +181,6 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
         mList.clear();
         notifyDataSetChanged();
     }
-
 
     @Override
     public boolean contains(T data) {
@@ -216,7 +200,7 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
     }
 
     @Override
-    public  int getItemCount() {
+    public int getItemCount() {
         return super.getItemCount();
     }
 }

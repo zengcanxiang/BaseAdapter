@@ -4,10 +4,11 @@ import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.zengcanxiang.baseAdapter.interFace.OnItemClickListener;
 
 import java.util.List;
 
@@ -16,13 +17,23 @@ import java.util.List;
  *
  * @author zengcx
  */
-public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BH> {
+public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
     protected List<T> mList;
     protected Context mContext;
     protected LayoutInflater mLInflater;
     protected int[] mLayoutId;
-    private SparseArray<View> mConvertViews = new SparseArray<>();
-    private ViewGroup mParent;
+    protected ViewGroup mParent;
+
+
+    protected OnItemClickListener mOnItemClickListener;
+
+    public OnItemClickListener getOnItemClickListener() {
+        return mOnItemClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener<T> listener) {
+        this.mOnItemClickListener = listener;
+    }
 
     /**
      * @param data     数据源
@@ -42,7 +53,8 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BH> {
     }
 
     @Override
-    public BH onCreateViewHolder(ViewGroup parent, int viewType) {
+    @SuppressWarnings("all")
+    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType < 0 || viewType > mLayoutId.length) {
             throw new ArrayIndexOutOfBoundsException("checkLayoutIndex > LayoutId.length ：" + viewType + ">" + mLayoutId.length);
         }
@@ -51,50 +63,46 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BH> {
         }
         mParent = parent;
         int layoutId = mLayoutId[viewType];
-        View view = inflateItemView(layoutId, parent);
+        View view = inflaterView(layoutId);
         BaseViewHolder viewHolder = (BaseViewHolder) view.getTag();
         if (viewHolder == null || viewHolder.getLayoutId() != layoutId) {
             viewHolder = new BaseViewHolder(mContext, layoutId, view);
         }
+        if (mOnItemClickListener != null) {
+            final BaseViewHolder finalViewHolder = viewHolder;
+            viewHolder.getItemView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = finalViewHolder.getAdapterPosition();
+                    mOnItemClickListener.onItemClick(finalViewHolder, position, mList.get(position));
+                }
+            });
+        }
         return viewHolder;
     }
 
-    /**
-     * 解析布局资源
-     *
-     * @param layoutId  布局id
-     * @param viewGroup 父布局
-     * @return 解析出的view
-     */
-    protected final View inflateItemView(int layoutId, ViewGroup viewGroup) {
-        View convertView = mConvertViews.get(layoutId);
-        if (convertView == null) {
-            convertView = mLInflater.inflate(layoutId,
-                    viewGroup, false);
-        }
-        return convertView;
-    }
-
     @Override
-    public final void onBindViewHolder(BH holder, int position) {
+    public final void onBindViewHolder(BaseViewHolder holder, int position) {
         onBindViewHolder(holder, position, null);
     }
 
 
     @Override
-    public final void onBindViewHolder(BH holder, int position, List<Object> payloads) {
+    public final void onBindViewHolder(BaseViewHolder holder, int position, List<Object> payloads) {
+        final T item = mList.get(position);
         if (payloads == null || payloads.isEmpty()) {
-            T item = mList.get(position);
             // 绑定数据
-            onBindData(holder, position, item);
+            bindData(holder, position, item);
         } else {
-            T item = mList.get(position);
             // 绑定数据
-            onBindData(holder, position, item, payloads);
+            bindData(holder, position, item, payloads);
         }
     }
 
-    protected void onBindData(BH viewHolder, int position, T item, List<Object> payloads) {
+    /**
+     * 带有payloads的处理数据回调方法
+     */
+    protected void bindData(BaseViewHolder viewHolder, int position, T item, List<Object> payloads) {
 
     }
 
@@ -110,7 +118,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BH> {
      * @param position   数据的位置
      * @param item       数据项
      */
-    protected abstract void onBindData(BH viewHolder, int position, T item);
+    protected abstract void bindData(BaseViewHolder viewHolder, int position, T item);
 
     public int checkLayoutIndex(T item, int position) {
         return 0;
@@ -125,5 +133,17 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BH> {
 
     public ViewGroup getParent() {
         return mParent;
+    }
+
+    /**
+     * 绑定相关事件,例如点击长按等,默认空实现
+     *
+     * @param viewHolder viewHolder
+     * @param position   数据的位置
+     * @param item       数据项
+     */
+    @SuppressWarnings("unchecked")
+    protected void setListener(final BaseViewHolder viewHolder, final int position, T item) {
+
     }
 }

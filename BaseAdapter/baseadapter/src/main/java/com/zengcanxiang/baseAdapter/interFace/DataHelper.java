@@ -65,12 +65,12 @@ public interface DataHelper<T> {
     void add(int startPosition, T data);
 
     /**
-     * 获取index对于的数据
+     * 获取position对于的数据
      *
-     * @param index 数据座标
+     * @param position 数据座标
      * @return 数据对象
      */
-    T getData(int index);
+    T getData(int position);
 
     /**
      * 将某一个数据修改
@@ -83,10 +83,10 @@ public interface DataHelper<T> {
     /**
      * 修改对应的位置的数据
      *
-     * @param index 修改的位置
+     * @param position 修改的位置
      * @param data  要代替的的数据
      */
-    void alterObj(int index, T data);
+    void alterObj(int position, T data);
 
     /**
      * 删除对应的数据
@@ -99,9 +99,9 @@ public interface DataHelper<T> {
     /**
      * 删除对应位置的数据
      *
-     * @param index 删除的位置
+     * @param position 删除的位置
      */
-    void removeToIndex(int index);
+    void removeToIndex(int position);
 
     /**
      * 替换所有数据

@@ -21,7 +21,6 @@ public abstract class BaseAdapter extends PagerAdapter {
     private List<View> mViews;
     private Context mContext;
 
-
     public BaseAdapter(Context context, @NonNull List<View> views) {
         this.mContext = context;
         this.mViews = views;
@@ -32,7 +31,7 @@ public abstract class BaseAdapter extends PagerAdapter {
         this.mViews = id2Views(viewIds);
     }
 
-    public BaseAdapter(Context context, @NonNull@LayoutRes int... viewIds) {
+    public BaseAdapter(Context context, @NonNull @LayoutRes int... viewIds) {
         this.mContext = context;
         this.mViews = id2Views(viewIds);
     }
@@ -88,7 +87,8 @@ public abstract class BaseAdapter extends PagerAdapter {
 
     /**
      * 处理一些与view相关的
-     * @param view 当前view
+     *
+     * @param view     当前view
      * @param position 当前位置
      */
     public abstract void convert(View view, int position);

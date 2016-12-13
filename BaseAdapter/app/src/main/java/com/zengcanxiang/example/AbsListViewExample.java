@@ -7,10 +7,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.zengcanxiang.baseAdapter.absListView.HelperAdapter;
@@ -24,6 +26,7 @@ public class AbsListViewExample extends AppCompatActivity {
     private android.widget.ListView examplelistview;
     private android.widget.GridView examplegridview;
     private LinearLayout example_list, example_grid;
+    List<String> mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +39,25 @@ public class AbsListViewExample extends AppCompatActivity {
         this.example_list = (LinearLayout) findViewById(R.id.example_list);
         this.example_grid = (LinearLayout) findViewById(R.id.example_grid);
 
-        List<String> mList = Arrays.asList(PhotoUrl.photoUrls);
+        mList = Arrays.asList(PhotoUrl.photoUrls);
         ExampleListAdapter adapter1 = new ExampleListAdapter(mList, this, R.layout.example_item);
         ExampleGridAdapter adapter2 = new ExampleGridAdapter(mList, this, R.layout.example_item);
 
         examplelistview.setAdapter(adapter1);
         examplegridview.setAdapter(adapter2);
+
+        examplelistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(AbsListViewExample.this, "你点击了第" + position + "项，数据:" + mList.get(position), Toast.LENGTH_SHORT).show();
+            }
+        });
+        examplegridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(AbsListViewExample.this, "你点击了第" + position + "项，数据:" + mList.get(position), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -76,7 +92,7 @@ public class AbsListViewExample extends AppCompatActivity {
         }
 
         @Override
-        public void HelpConvert(HelperViewHolder viewHolder, int position, String s) {
+        public void HelperBindData(HelperViewHolder viewHolder, int position, String s) {
             ImageView view = viewHolder.getView(R.id.example_item_img_view);
             Glide.with(AbsListViewExample.this)
                     .load(s)
@@ -93,7 +109,7 @@ public class AbsListViewExample extends AppCompatActivity {
         }
 
         @Override
-        public void HelpConvert(HelperViewHolder viewHolder, int position, String s) {
+        public void HelperBindData(HelperViewHolder viewHolder, int position, String s) {
             ImageView view = viewHolder.getView(R.id.example_item_img_view);
             Glide.with(AbsListViewExample.this)
                     .load(s)

@@ -11,8 +11,10 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.zengcanxiang.baseAdapter.recyclerView.HeadFootAdapter;
@@ -34,6 +36,7 @@ public class RecyclerViewOtherView extends AppCompatActivity {
     private GridLayoutManager mGridLayoutManager;
     private MyRecyerAdapter mAdapter;
     private HeadFootAdapter headFootAdapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,29 +48,33 @@ public class RecyclerViewOtherView extends AppCompatActivity {
         initHeadFoot();
 
         recyclerViewother.setAdapter(headFootAdapter);
-
     }
+
     RecyclerView gridView;
+
     private void initHeadFoot() {
         headFootAdapter = new HeadFootAdapter(mAdapter) {
             @Override
-            public void disposeHeadView(HelperViewHolder viewHolder, int position) {
-                gridView = viewHolder.getView(R.id.headGrid);
-                if(gridView.getAdapter()!=null){
-                    return;
-                }
-                ExampleGridAdapter adapter2 = new ExampleGridAdapter(mList, RecyclerViewOtherView.this, R.layout.example_viewpager_one);
-                gridView.setLayoutManager(new GridLayoutManager(RecyclerViewOtherView.this,2));
-                gridView.setNestedScrollingEnabled(true);
-                gridView.setAdapter(adapter2);
+            public void disposeHeadView(HelperViewHolder viewHolder, int layoutId, int position) {
+                viewHolder.getItemView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(RecyclerViewOtherView.this, "你点击了headView", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
-            public void disposeFootView(HelperViewHolder viewHolder, int position) {
-
+            public void disposeFootView(HelperViewHolder viewHolder, View footView, int position) {
+                viewHolder.getItemView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(RecyclerViewOtherView.this, "你点击了footView", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         };
-        headFootAdapter.addHeadView(R.layout.example_head_footer);
+        headFootAdapter.addHeadView(R.layout.list_head_home);
     }
 
     private void initRecy() {
@@ -116,16 +123,20 @@ public class RecyclerViewOtherView extends AppCompatActivity {
                 recyclerViewother.setAdapter(headFootAdapter);
                 return true;
             case "removeHead":
-                headFootAdapter.removeHeadView(R.layout.example_head_footer);
+                headFootAdapter.removeHeadView(R.layout.list_head_home);
                 break;
             case "removeFoot":
                 headFootAdapter.removeFootView(R.layout.example_head_footer);
                 break;
             case "addHead":
-                headFootAdapter.addHeadView(R.layout.example_head_footer);
+                headFootAdapter.addHeadView(R.layout.list_head_home);
                 break;
             case "addFoot":
-                headFootAdapter.addFootView(R.layout.example_head_footer);
+                try {
+                    headFootAdapter.addFootView(R.layout.example_head_footer);
+                } catch (Exception e) {
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
         return false;

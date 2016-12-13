@@ -1,6 +1,7 @@
 package com.zengcanxiang.baseAdapter.recyclerView;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
 
@@ -9,7 +10,7 @@ import android.view.View;
  *
  * @author zengcx
  */
-public class BaseViewHolder extends BH {
+public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     private SparseArray<View> mViews = new SparseArray<>();
     private View mConvertView;

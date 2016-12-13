@@ -67,7 +67,7 @@ public class AbsListViewExampleTwo extends AppCompatActivity {
         }
 
         @Override
-        public void HelpConvert(HelperViewHolder viewHolder, int position, Msg msg) {
+        public void HelperBindData(HelperViewHolder viewHolder, int position, Msg msg) {
             switch (msg.getType()){
                 case  0:
                     viewHolder.setText(R.id.chat_send_content,msg.getMsg());

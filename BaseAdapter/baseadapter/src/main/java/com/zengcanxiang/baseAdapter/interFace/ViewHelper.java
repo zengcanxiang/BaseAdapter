@@ -3,6 +3,9 @@ package com.zengcanxiang.baseAdapter.interFace;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.widget.Adapter;
 
 import com.zengcanxiang.baseAdapter.recyclerView.BaseViewHolder;
@@ -22,7 +25,7 @@ public interface ViewHelper<VH> {
          * @param value  文本内容
          * @return viewHolder
          */
-        VH setText(int viewId, String value);
+        VH setText(int viewId, CharSequence value);
 
         /**
          * 设置imgView的图片,通过Id设置
@@ -31,7 +34,7 @@ public interface ViewHelper<VH> {
          * @param imgResId 图片Id
          * @return viewHolder
          */
-        VH setImageResource(int viewId, int imgResId);
+        VH setImageResource(int viewId, @DrawableRes int imgResId);
 
         /**
          * 设置背景颜色
@@ -40,7 +43,7 @@ public interface ViewHelper<VH> {
          * @param color  颜色数值
          * @return viewHolder
          */
-        VH setBackgroundColor(int viewId, int color);
+        VH setBackgroundColor(int viewId, @ColorInt int color);
 
         /**
          * 设置背景颜色
@@ -49,7 +52,7 @@ public interface ViewHelper<VH> {
          * @param colorRes 颜色Id
          * @return viewHolder
          */
-        VH setBackgroundColorRes(int viewId, int colorRes);
+        VH setBackgroundColorRes(int viewId, @ColorRes int colorRes);
 
         /**
          * 设置textView文本颜色
@@ -58,7 +61,7 @@ public interface ViewHelper<VH> {
          * @param color  颜色数值
          * @return viewHolder
          */
-        VH setTextColor(int viewId, int color);
+        VH setTextColor(int viewId, @ColorInt int color);
 
         /**
          * 设置textView文本颜色
@@ -67,7 +70,7 @@ public interface ViewHelper<VH> {
          * @param colorRes 颜色Id
          * @return viewHolder
          */
-        VH setTextColorRes(int viewId, int colorRes);
+        VH setTextColorRes(int viewId, @ColorRes int colorRes);
 
         /**
          * 设置img的Drawable
@@ -85,7 +88,7 @@ public interface ViewHelper<VH> {
          * @param drawableRes drawableId
          * @return viewHolder
          */
-        VH setImageDrawableRes(int viewId, int drawableRes);
+        VH setImageDrawableRes(int viewId, @DrawableRes int drawableRes);
 
 
         /**
@@ -100,11 +103,11 @@ public interface ViewHelper<VH> {
         /**
          * 设置控件是否隐藏
          *
-         * @param viewId  viewId
-         * @param visible visible
+         * @param viewId     viewId
+         * @param visibility visibility
          * @return viewHolder
          */
-        VH setVisible(int viewId, boolean visible);
+        VH setVisible(int viewId, int visibility);
 
         /**
          * 设置控件的tag
@@ -243,7 +246,7 @@ public interface ViewHelper<VH> {
          * @param value  文本内容
          * @return viewHolder viewHolder viewHolder
          */
-        VH setText(int viewId, String value);
+        VH setText(int viewId, CharSequence value);
 
         /**
          * 设置imgView的图片,通过Id设置
@@ -252,7 +255,7 @@ public interface ViewHelper<VH> {
          * @param imgResId 图片Id
          * @return viewHolder viewHolder
          */
-        VH setImageResource(int viewId, int imgResId);
+        VH setImageResource(int viewId, @DrawableRes int imgResId);
 
         /**
          * 设置背景颜色
@@ -261,7 +264,7 @@ public interface ViewHelper<VH> {
          * @param color  颜色数值
          * @return viewHolder viewHolder
          */
-        VH setBackgroundColor(int viewId, int color);
+        VH setBackgroundColor(int viewId, @ColorInt int color);
 
         /**
          * 设置背景颜色
@@ -270,7 +273,7 @@ public interface ViewHelper<VH> {
          * @param colorRes 颜色Id
          * @return viewHolder
          */
-        VH setBackgroundColorRes(int viewId, int colorRes);
+        VH setBackgroundColorRes(int viewId, @ColorRes int colorRes);
 
         /**
          * 设置textView文本颜色
@@ -279,7 +282,7 @@ public interface ViewHelper<VH> {
          * @param color  颜色数值
          * @return viewHolder
          */
-        VH setTextColor(int viewId, int color);
+        VH setTextColor(int viewId, @ColorInt int color);
 
         /**
          * 设置textView文本颜色
@@ -288,7 +291,7 @@ public interface ViewHelper<VH> {
          * @param colorRes 颜色Id
          * @return viewHolder
          */
-        VH setTextColorRes(int viewId, int colorRes);
+        VH setTextColorRes(int viewId, @ColorRes int colorRes);
 
         /**
          * 设置img的Drawable
@@ -306,7 +309,7 @@ public interface ViewHelper<VH> {
          * @param drawableRes drawableId
          * @return viewHolder
          */
-        VH setImageDrawableRes(int viewId, int drawableRes);
+        VH setImageDrawableRes(int viewId, @DrawableRes int drawableRes);
 
 
         /**
@@ -321,11 +324,11 @@ public interface ViewHelper<VH> {
         /**
          * 设置控件是否隐藏
          *
-         * @param viewId  viewId
-         * @param visible visible
+         * @param viewId     viewId
+         * @param visibility visibility
          * @return viewHolder
          */
-        VH setVisible(int viewId, boolean visible);
+        VH setVisible(int viewId, int visibility);
 
         /**
          * 设置控件的tag

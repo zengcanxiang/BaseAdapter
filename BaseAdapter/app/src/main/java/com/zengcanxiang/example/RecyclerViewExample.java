@@ -12,8 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.zengcanxiang.baseAdapter.interFace.OnItemClickListener;
+import com.zengcanxiang.baseAdapter.recyclerView.BaseViewHolder;
 import com.zengcanxiang.baseAdapter.recyclerView.HelperAdapter;
 import com.zengcanxiang.baseAdapter.recyclerView.HelperViewHolder;
 
@@ -45,6 +48,14 @@ public class RecyclerViewExample extends AppCompatActivity {
         recyclerView.setLayoutManager(mGridLayoutManager);
         SpacesItemDecoration decoration = new SpacesItemDecoration(16);
         recyclerView.addItemDecoration(decoration);
+
+        mAdapter.setOnItemClickListener(new OnItemClickListener<String>() {
+            @Override
+            public void onItemClick(BaseViewHolder holder, int position, String item) {
+                Toast.makeText(RecyclerViewExample.this, "你点击了第"+position+"项，数据:"+item, Toast.LENGTH_SHORT).show();
+            }
+        });
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -79,11 +90,10 @@ public class RecyclerViewExample extends AppCompatActivity {
                 return true;
         }
         return false;
-
     }
 
 
-    private class MyRecyerAdapter extends HelperAdapter<String> {
+    private  class MyRecyerAdapter extends HelperAdapter<String> {
         private List<Integer> mHeights = new ArrayList<>();
 
         /**

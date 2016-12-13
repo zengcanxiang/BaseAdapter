@@ -19,15 +19,15 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T> implements DataHel
     }
 
     @Override
-    public <BH extends BaseViewHolder> void convert(BH viewHolder, int position, T t) {
+    public <BH extends BaseViewHolder> void bindData(BH viewHolder, int position, T t) {
         HelperViewHolder holder = (HelperViewHolder) viewHolder;
-        HelpConvert(holder, position, t);
+        HelperBindData(holder, position, t);
     }
 
     /**
      * <p>实现具体控件的获取和赋值等业务</p>
      */
-    public abstract void HelpConvert(HelperViewHolder viewHolder, int position, T t);
+    public abstract void HelperBindData(HelperViewHolder viewHolder, int position, T t);
 
     @Override
     public boolean isEnabled() {
@@ -91,8 +91,8 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T> implements DataHel
     }
 
     @Override
-    public T getData(int index) {
-        return getCount() == 0 ? null : mList.get(index);
+    public T getData(int position) {
+        return getCount() == 0 ? null : mList.get(position);
     }
 
 
@@ -103,9 +103,9 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T> implements DataHel
 
 
     @Override
-    public void alterObj(int index, T data) {
+    public void alterObj(int position, T data) {
         initList();
-        mList.set(index, data);
+        mList.set(position, data);
         notifyDataSetChanged();
     }
 
@@ -121,11 +121,11 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T> implements DataHel
     }
 
     @Override
-    public void removeToIndex(int index) {
+    public void removeToIndex(int position) {
         if (mList == null) {
             throw new IllegalArgumentException("list is null,cannot execute");
         }
-        mList.remove(index);
+        mList.remove(position);
         notifyDataSetChanged();
     }
 

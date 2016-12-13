@@ -10,15 +10,16 @@
 </ul>
 但是以个人习惯来说,感觉项目使用起来都是比较复杂的,就吸取精华,简化了一下使用.
 
-![示例](https://github.com/zengcanxiang/BaseAdapter/blob/master/Animation.gif)
+![示例](https://github.com/zengcanxiang/BaseAdapter/blob/master/Animation.gif)  
+
+[demo.apk](https://github.com/zengcanxiang/BaseAdapter/blob/master/app-debug.apk)  
 
 ## compile
 ```java
-compile 'com.zengcanxiang.baseAdapter:baseadapter:1.4.6'
+compile 'com.zengcanxiang.baseAdapter:baseadapter:1.4.9'
 ```   
 ###使用范例
 ####1.普通absListView
-```java
 ```java
 import com.zengcanxiang.baseAdapter.absListView.HelperAdapter;
 import com.zengcanxiang.baseAdapter.absListView.HelperViewHolder;
@@ -299,6 +300,25 @@ public class ViewAdapter extends BaseAdapter {
 
 ```
 
+#### 6.headFootViewAdapter(RecyclerView)
+```java
+import com.zengcanxiang.baseAdapter.recyclerView.HeadFootAdapter;
+
+MyRecyerAdapter mAdapter = new MyRecyerAdapter(mList, this, R.layout.example_item);
+HeadFootAdapter headFootAdapter = new HeadFootAdapter(mAdapter) {
+            @Override
+            public void disposeHeadView(HelperViewHolder viewHolder, int layoutId, int position) {
+            }
+
+            @Override
+            public void disposeFootView(HelperViewHolder viewHolder, View footView, int position) {
+
+            }
+        };
+//注意：推荐head或者foot不是listView或者之类的列表控件
+//如果超出一屏的话，将他们分割开来，不要一次性写入到一个xml中
+headFootAdapter.addHeadView(R.layout.list_head_home);
+```
 
 <a href="https://github.com/zengcanxiang/BaseAdapter/tree/master/BaseAdapter/app">example项目</a>
 

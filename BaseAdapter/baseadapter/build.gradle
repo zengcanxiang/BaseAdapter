@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-version = "1.4.8"
+version = "1.4.9"
 def siteUrl = 'https://github.com/zengcanxiang/BaseAdapter'      // 项目的主页
 def gitUrl = 'https://github.com/zengcanxiang/BaseAdapter.git'   // Git仓库的url
 
@@ -11,8 +11,8 @@ android {
     buildToolsVersion '23.0.1'
 
     defaultConfig {
-        minSdkVersion 11
-        targetSdkVersion 19
+        minSdkVersion 15
+        targetSdkVersion 23
         versionCode 1
         versionName version
     }

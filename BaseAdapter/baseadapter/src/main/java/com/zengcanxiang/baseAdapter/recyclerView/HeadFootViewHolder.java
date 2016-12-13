@@ -16,12 +16,12 @@ class HeadFootViewHolder extends HelperViewHolder {
                                          ViewGroup parent, int layoutId) {
         HeadFootViewHolder holder;
         if (convertView == null) {
-            View itemView = LayoutInflater.from(context).inflate(layoutId, parent,
-                    false);
+            View itemView = LayoutInflater.from(context).inflate(layoutId, parent, false);
             holder = new HeadFootViewHolder(context, layoutId, itemView);
         } else {
             holder = (HeadFootViewHolder) convertView.getTag();
         }
+
         if (holder == null) {
             holder = new HeadFootViewHolder(context, layoutId, convertView);
         }
