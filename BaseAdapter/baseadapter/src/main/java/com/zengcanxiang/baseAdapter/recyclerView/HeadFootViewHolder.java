@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 class HeadFootViewHolder extends HelperViewHolder {
 
-    public HeadFootViewHolder(Context context, int layoutId, View itemView) {
+    private HeadFootViewHolder(Context context, int layoutId, View itemView) {
         super(context, layoutId, itemView);
     }
 
@@ -25,6 +25,7 @@ class HeadFootViewHolder extends HelperViewHolder {
         if (holder == null) {
             holder = new HeadFootViewHolder(context, layoutId, convertView);
         }
+
         return holder;
     }
 }

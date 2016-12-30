@@ -47,6 +47,7 @@ public abstract class HelperAdapter<T> extends BaseAdapter<T>
                 @Override
                 public void onClick(View v) {
                     int position = finalViewHolder.getAdapterPosition();
+                    position -= getHeadSize();
                     mOnItemClickListener.onItemClick(finalViewHolder, position, mList.get(position));
                 }
             });
